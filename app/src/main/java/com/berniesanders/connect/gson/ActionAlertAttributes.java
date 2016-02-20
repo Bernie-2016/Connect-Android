@@ -6,7 +6,7 @@ import static com.berniesanders.connect.util.StringUtil.nullAsEmpty;
 import static com.berniesanders.connect.util.StringUtil.toLong;
 import static com.berniesanders.connect.util.StringUtil.toUri;
 
-public class ActionAlertAttributes {
+public class ActionAlertAttributes implements JsonApiAttributes<ActionAlert> {
     public static final String TYPE = "action_alerts";
 
     public String title;
@@ -17,8 +17,9 @@ public class ActionAlertAttributes {
     public String twitter_url;
     public String tweet_id;
 
-    public ActionAlert toValue() {
+    public ActionAlert toValue(final String id) {
         return ActionAlert.builder()
+                .id(nullAsEmpty(id))
                 .title(nullAsEmpty(title))
                 .body(nullAsEmpty(body))
                 .shortBody(nullAsEmpty(short_body))

@@ -44,16 +44,16 @@ public class GsonFactoryTest extends TestCase {
             "}";
 
     public void testActionAlertDeserialization() {
-        final List<Pair<String, ActionAlert>> alerts = GsonFactory.create().fromJson(ACTION_ALERT_JSON, JsonApiResponse.class).getActionAlerts();
+        final List<ActionAlert> alerts = GsonFactory.create().fromJson(ACTION_ALERT_JSON, JsonApiResponse.class).getActionAlerts();
 
         Assert.assertEquals(2, alerts.size());
 
-        final Pair<String, ActionAlert> alert1 = alerts.get(0);
-        final Pair<String, ActionAlert> alert2 = alerts.get(1);
+        final ActionAlert alert1 = alerts.get(0);
+        final ActionAlert alert2 = alerts.get(1);
 
-        Assert.assertEquals("139", alert1.first);
-        Assert.assertEquals("112", alert2.first);
-        Assert.assertEquals(700791753087934464L, (long) alert1.second.tweetId().get());
-        Assert.assertEquals(695385140122419200L, (long) alert2.second.tweetId().get());
+        Assert.assertEquals("139", alert1.id());
+        Assert.assertEquals("112", alert2.id());
+        Assert.assertEquals(700791753087934464L, (long) alert1.tweetId().get());
+        Assert.assertEquals(695385140122419200L, (long) alert2.tweetId().get());
     }
 }

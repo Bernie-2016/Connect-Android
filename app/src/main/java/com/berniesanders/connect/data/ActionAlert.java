@@ -7,6 +7,7 @@ import com.google.auto.value.AutoValue;
 
 @AutoValue
 public abstract class ActionAlert {
+    public abstract String id();
     public abstract String title();
     public abstract String body();
     public abstract String shortBody();
@@ -23,6 +24,7 @@ public abstract class ActionAlert {
 
     @AutoValue.Builder
     public abstract static class Builder {
+        public abstract Builder id(final String id);
         public abstract Builder title(final String title);
         public abstract Builder body(final String body);
         public abstract Builder shortBody(final String shortBody);
