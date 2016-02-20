@@ -35,7 +35,7 @@ public class GsonFactory {
                         if (type != null) {
                             final JsonApiDataItem item = new JsonApiDataItem();
 
-                            item.id = object.get(ID).getAsLong();
+                            item.id = object.get(ID).getAsString();
                             item.attributes = context.deserialize(object.get(ATTRIBUTES), type);
 
                             return item;

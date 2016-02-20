@@ -11,7 +11,7 @@ import java.util.List;
 public class JsonApiResponse {
     private List<JsonApiDataItem> data;
 
-    public List<Pair<Long, ActionAlert>> getActionAlerts() {
+    public List<Pair<String, ActionAlert>> getActionAlerts() {
         return getDataItems()
                 .filter(item -> item.attributes instanceof ActionAlertAttributes)
                 .map(item -> Pair.create(item.id, ((ActionAlertAttributes) item.attributes).toValue()))
