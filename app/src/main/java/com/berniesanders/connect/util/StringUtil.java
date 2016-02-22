@@ -19,4 +19,8 @@ public class StringUtil {
                 .filter(s -> Patterns.WEB_URL.matcher(s).matches())
                 .map(Uri::parse);
     }
+
+    public static String removeScript(final String string) {
+        return string.replaceAll("<script>(.|\\r|\\n)*</script>", "").trim();
+    }
 }
