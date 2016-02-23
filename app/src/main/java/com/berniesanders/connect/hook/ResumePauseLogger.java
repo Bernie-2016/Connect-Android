@@ -1,4 +1,4 @@
-package com.berniesanders.connect;
+package com.berniesanders.connect.hook;
 
 import com.berniesanders.connect.hook.ActivityHook;
 import com.berniesanders.connect.hook.ActivityHookBuilder;

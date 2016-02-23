@@ -13,7 +13,7 @@ import com.berniesanders.connect.view.ActionAlertViewHolder;
 import java.util.List;
 
 /**
- * A simple array adapter for Action Alerts
+ * A recycler view adapter for Action Alerts
  *
  * Created by John on 2/21/16.
  */
@@ -53,13 +53,7 @@ public class ActionAlertAdapter extends RecyclerView.Adapter<ActionAlertViewHold
 
         // Set on click listener
         View view = alertViewHolder.itemView;
-        view.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(v.getContext(), "View clicked at " + position, Toast.LENGTH_LONG).show();
-                callback.itemSelected(position, alert);
-            }
-        });
+        view.setOnClickListener(v -> callback.itemSelected(position, alert));
     }
 
     @Override

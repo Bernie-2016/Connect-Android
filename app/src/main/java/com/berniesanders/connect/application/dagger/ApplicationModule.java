@@ -1,8 +1,8 @@
-package com.berniesanders.connect.dagger;
+package com.berniesanders.connect.application.dagger;
 
 import android.content.Context;
 
-import com.berniesanders.connect.ConnectApplication;
+import com.berniesanders.connect.application.ConnectApplication;
 import com.berniesanders.connect.api.ConnectApi;
 import com.berniesanders.connect.gson.GsonFactory;
 import com.google.gson.Gson;

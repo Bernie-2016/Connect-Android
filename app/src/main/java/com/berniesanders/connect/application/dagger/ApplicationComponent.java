@@ -1,6 +1,6 @@
-package com.berniesanders.connect.dagger;
+package com.berniesanders.connect.application.dagger;
 
-import com.berniesanders.connect.MainActivity;
+import com.berniesanders.connect.activities.MainActivity;
 
 import javax.inject.Singleton;
 
