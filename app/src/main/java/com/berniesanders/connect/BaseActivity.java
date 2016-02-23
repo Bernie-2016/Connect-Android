@@ -1,7 +1,6 @@
 package com.berniesanders.connect;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.berniesanders.connect.hook.ActivityHook;
@@ -14,8 +13,8 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onCreate(final Bundle savedInstanceState, final PersistableBundle persistentState) {
-        super.onCreate(savedInstanceState, persistentState);
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
         for (final ActivityHook hook : mHooks) {
             hook.onCreate(this, savedInstanceState);
