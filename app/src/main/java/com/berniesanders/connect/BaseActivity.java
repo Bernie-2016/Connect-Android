@@ -13,7 +13,7 @@ public class BaseActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onCreate(final Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         for (final ActivityHook hook : mHooks) {

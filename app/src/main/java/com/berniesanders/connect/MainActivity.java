@@ -33,7 +33,7 @@ public class MainActivity extends BaseActivity implements ActionAlertAdapter.Cal
     private RecyclerView.LayoutManager layoutManager;
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         // inject presenter and other things here,
         // then get their hooks and set them
         setHooks(Collections.singletonList(ResumePauseLogger.createHook()));
