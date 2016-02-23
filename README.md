@@ -1,6 +1,8 @@
 # Connect for Android
 
-Mobile application for getting involved and keeping up with Bernie.
+Mobile application for getting involved and keeping up with Bernie.  
+
+[![Circle CI](https://circleci.com/gh/Bernie-2016/Connect-Android.svg?style=svg)](https://circleci.com/gh/Bernie-2016/Connect-Android)
 
 ## Quick Links
 
