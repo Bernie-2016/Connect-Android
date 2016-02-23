@@ -11,8 +11,9 @@ dependencies:
 
 test:
   post:
-    - mkdir -p $CIRCLE_TEST_REPORTS/junit-debug/
-    - mkdir -p $CIRCLE_TEST_REPORTS/junit-release/
-    - find . -type f -regex ".*/app/build/test-results/debug/.*.xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit-debug/ \;
-    - find . -type f -regex ".*/app/build/test-results/release/.*.xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit-release/ \;
+    - mkdir -p $CIRCLE_TEST_REPORTS/test-debug/
+    - mkdir -p $CIRCLE_TEST_REPORTS/test-release/
+    - find . -type f -regex ".*/app/build/reports/tests/debug/.*" -exec cp {} $CIRCLE_TEST_REPORTS/test-debug/ \;
+    - find . -type f -regex ".*/app/build/reports/tests/release/.*" -exec cp {} $CIRCLE_TEST_REPORTS/test-release/ \;
+
 

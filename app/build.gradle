@@ -54,6 +54,3 @@ dependencies {
     compile 'com.jakewharton.timber:timber:3.0.2'
     compile 'com.commonsware.cwac:anddown:0.2.4'
 }
-//retrolambda {
-//    jdk '/usr/lib/jvm/java-8-oracle/' // Or whatever path you have
-//}
