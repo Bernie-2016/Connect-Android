@@ -18,14 +18,18 @@ import butterknife.ButterKnife;
 import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity implements ActionAlertAdapter.Callback {
+
     @Inject
-    ActionAlertsModel mActionAlertsModel;
+    ActionAlertsModel actionAlertsModel;
 
     @Bind(value = R.id.root)
-    FrameLayout mRoot;
+    FrameLayout root;
 
     @Bind(R.id.alertListView)
-    RecyclerView mAlertRecyclerView;
+    RecyclerView alertsRecyclerView;
+
+    private ActionAlertAdapter adapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,22 +39,21 @@ public class MainActivity extends AppCompatActivity implements ActionAlertAdapte
         ButterKnife.bind(this);
 
         // Configure RecyclerView layout
-        // todo: get "No Adapter attached; skipping layout" RecyclerView error
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
-        mAlertRecyclerView.setLayoutManager(layoutManager);
+        adapter = new ActionAlertAdapter(this, this);
+        layoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
 
-        mActionAlertsModel.getActionAlerts().subscribe(
-                alerts -> mAlertRecyclerView.setAdapter(new ActionAlertAdapter(alerts, this)),
-                error -> Timber.d("error: " + error),
-                () -> {
-                });
+        alertsRecyclerView.setLayoutManager(layoutManager);
+        alertsRecyclerView.setAdapter(adapter);
+
+        actionAlertsModel.getActionAlerts().subscribe(
+                adapter::setAlerts,
+                error -> Timber.d("error: " + error)
+        );
     }
 
     @Override
     public void itemSelected(int position, ActionAlert alert) {
         // Do things here, such as view the action alert detail
         Timber.d("Title: " + alert.title());
-
     }
 }
