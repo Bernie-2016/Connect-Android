@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        ConnectApplication.component().inject(this);
+        ((ConnectApplication)getApplication()).getObjectGraph().inject(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 
