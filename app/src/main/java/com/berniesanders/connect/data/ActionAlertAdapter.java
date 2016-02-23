@@ -1,20 +1,16 @@
 package com.berniesanders.connect.data;
 
-import android.app.Notification;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.TextView;
 
 import com.berniesanders.connect.R;
 import com.berniesanders.connect.view.ActionAlertViewHolder;
 
 import java.util.List;
-
-import javax.inject.Inject;
 
 /**
  * A simple array adapter for Action Alerts
@@ -23,16 +19,25 @@ import javax.inject.Inject;
  */
 public class ActionAlertAdapter extends RecyclerView.Adapter<ActionAlertViewHolder> {
     
-    private final List<ActionAlert> alerts;
+    private List<ActionAlert> alerts;
     private final Callback callback;
+    private final LayoutInflater inflater;
 
-    public ActionAlertAdapter(List<ActionAlert> alerts, Callback callback) {
+    public ActionAlertAdapter(Context context, Callback callback) {
+        this(context, null, callback);
+    }
+
+    public ActionAlertAdapter(Context context, List<ActionAlert> alerts, Callback callback) {
         this.alerts = alerts;
         this.callback = callback;
+        inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getItemCount() {
+        if (alerts == null) {
+            return 0;
+        }
         return alerts.size();
     }
 
@@ -59,15 +64,18 @@ public class ActionAlertAdapter extends RecyclerView.Adapter<ActionAlertViewHold
 
     @Override
     public ActionAlertViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View itemView = LayoutInflater.
-                from(viewGroup.getContext()).
-                inflate(R.layout.alert_item, viewGroup, false);
+        View itemView = inflater.inflate(R.layout.alert_item, viewGroup, false);
 
         return new ActionAlertViewHolder(itemView);
     }
 
+    public void setAlerts(@NonNull List<ActionAlert> alerts) {
+        this.alerts = alerts;
+        notifyDataSetChanged();
+    }
+
     public interface Callback {
-        public void itemSelected(int position, ActionAlert alert);
+        void itemSelected(int position, ActionAlert alert);
     }
 
 }
