@@ -1,6 +1,7 @@
 package com.berniesanders.connect;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.berniesanders.connect.dagger.ApplicationComponent;
 import com.berniesanders.connect.dagger.ApplicationModule;
@@ -9,7 +10,7 @@ import com.berniesanders.connect.dagger.DaggerApplicationComponent;
 import timber.log.Timber;
 
 public class ConnectApplication extends Application {
-    private static ApplicationComponent sComponent;
+    private ApplicationComponent component;
 
     @Override
     public void onCreate() {
@@ -19,12 +20,12 @@ public class ConnectApplication extends Application {
             Timber.plant(new Timber.DebugTree());
         }
 
-        sComponent = DaggerApplicationComponent.builder()
+        component = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
     }
 
-    public static ApplicationComponent component() {
-        return sComponent;
+    public ApplicationComponent getObjectGraph() {
+        return component;
     }
 }
