@@ -1,9 +1,8 @@
 package com.berniesanders.connect;
 
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import com.berniesanders.connect.model.ActionAlertsModel;
 
@@ -15,13 +14,10 @@ import timber.log.Timber;
 
 public class MainActivity extends AppCompatActivity {
     @Inject
-    Context mContext;
-
-    @Inject
     ActionAlertsModel mActionAlertsModel;
 
-    @Bind(value = R.id.text)
-    TextView mText;
+    @Bind(value = R.id.root)
+    FrameLayout mRoot;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
         ConnectApplication.component().inject(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
-        mText.setText(mContext.getPackageName());
 
         mActionAlertsModel.getActionAlerts().subscribe(
                 alerts -> Timber.d("alerts: " + alerts),
