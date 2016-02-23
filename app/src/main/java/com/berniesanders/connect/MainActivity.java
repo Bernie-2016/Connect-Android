@@ -1,6 +1,5 @@
 package com.berniesanders.connect;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,13 +10,15 @@ import com.berniesanders.connect.data.ActionAlert;
 import com.berniesanders.connect.data.ActionAlertAdapter;
 import com.berniesanders.connect.model.ActionAlertsModel;
 
+import java.util.Collections;
+
 import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import timber.log.Timber;
 
-public class MainActivity extends AppCompatActivity implements ActionAlertAdapter.Callback {
+public class MainActivity extends BaseActivity implements ActionAlertAdapter.Callback {
 
     @Inject
     ActionAlertsModel actionAlertsModel;
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity implements ActionAlertAdapte
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // inject presenter and other things here,
+        // then get their hooks and set them
+        setHooks(Collections.singletonList(ResumePauseLogger.createHook()));
         super.onCreate(savedInstanceState);
         ((ConnectApplication)getApplication()).getObjectGraph().inject(this);
         setContentView(R.layout.activity_main);
