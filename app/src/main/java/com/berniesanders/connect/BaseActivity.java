@@ -5,15 +5,14 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.berniesanders.connect.hook.ActivityHook;
 
-public class BaseActivity extends AppCompatActivity {
+public abstract class BaseActivity extends AppCompatActivity {
     private Iterable<ActivityHook> mHooks;
 
-    protected void setHooks(final Iterable<ActivityHook> hooks) {
-        mHooks = hooks;
-    }
+    protected abstract Iterable<ActivityHook> getHooks();
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
+        mHooks = getHooks();
         super.onCreate(savedInstanceState);
 
         for (final ActivityHook hook : mHooks) {

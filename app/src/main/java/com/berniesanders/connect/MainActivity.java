@@ -8,6 +8,7 @@ import android.widget.FrameLayout;
 
 import com.berniesanders.connect.data.ActionAlert;
 import com.berniesanders.connect.data.ActionAlertAdapter;
+import com.berniesanders.connect.hook.ActivityHook;
 import com.berniesanders.connect.model.ActionAlertsModel;
 
 import java.util.Collections;
@@ -33,10 +34,13 @@ public class MainActivity extends BaseActivity implements ActionAlertAdapter.Cal
     private RecyclerView.LayoutManager layoutManager;
 
     @Override
+    protected Iterable<ActivityHook> getHooks() {
+        return Collections.singletonList(ResumePauseLogger.createHook());
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // inject presenter and other things here,
-        // then get their hooks and set them
-        setHooks(Collections.singletonList(ResumePauseLogger.createHook()));
+        // inject presenter and other things here
         super.onCreate(savedInstanceState);
         ((ConnectApplication)getApplication()).getObjectGraph().inject(this);
         setContentView(R.layout.activity_main);
