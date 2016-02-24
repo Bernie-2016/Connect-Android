@@ -11,21 +11,16 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;
-
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-@Singleton
 public class ActionAlertsModel {
     private final ConnectApi mConnectApi;
 
     private Optional<List<ActionAlert>> mActionAlerts = Optional.empty();
     private Map<String, ActionAlert> mActionAlertById = Collections.emptyMap();
 
-    @Inject
     public ActionAlertsModel(final ConnectApi connectApi) {
         mConnectApi = connectApi;
     }

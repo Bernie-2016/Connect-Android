@@ -3,14 +3,16 @@ package com.berniesanders.connect.activities;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
 import android.widget.FrameLayout;
 
 import com.berniesanders.connect.data.ActionAlert;
 import com.berniesanders.connect.data.ActionAlertAdapter;
 import com.berniesanders.connect.application.ConnectApplication;
 import com.berniesanders.connect.R;
+import com.berniesanders.connect.hook.ActivityHook;
 import com.berniesanders.connect.model.ActionAlertsModel;
+
+import java.util.Collections;
 
 import javax.inject.Inject;
 
@@ -33,10 +35,14 @@ public class MainActivity extends BaseActivity implements ActionAlertAdapter.Cal
     private RecyclerView.LayoutManager layoutManager;
 
     @Override
+    protected Iterable<ActivityHook> getHooks() {
+        return Collections.emptyList();
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
-        // inject presenter and other things here
+        getObjectGraph().inject(this);
         super.onCreate(savedInstanceState);
-        ((ConnectApplication)getApplication()).getObjectGraph().inject(this);
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
 

@@ -5,6 +5,7 @@ import android.content.Context;
 import com.berniesanders.connect.application.ConnectApplication;
 import com.berniesanders.connect.api.ConnectApi;
 import com.berniesanders.connect.gson.GsonFactory;
+import com.berniesanders.connect.model.ActionAlertsModel;
 import com.google.gson.Gson;
 
 import javax.inject.Singleton;
@@ -48,5 +49,11 @@ public class ApplicationModule {
     @Singleton
     public ConnectApi provideConnectApi(final Retrofit retrofit) {
         return retrofit.create(ConnectApi.class);
+    }
+
+    @Provides
+    @Singleton
+    public ActionAlertsModel provideActionAlertsModel(final ConnectApi connectApi) {
+        return new ActionAlertsModel(connectApi);
     }
 }
