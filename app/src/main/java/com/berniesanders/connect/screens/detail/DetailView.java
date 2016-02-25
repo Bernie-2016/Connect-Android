@@ -34,7 +34,7 @@ public class DetailView {
     }
 
     private void onCreate(final AppCompatActivity activity, final Bundle savedInstanceState) {
-        activity.setContentView(R.layout.activity_main);
+        activity.setContentView(R.layout.activity_detail);
         ButterKnife.bind(this, activity);
 
         mActionAlertDetailsView = new ActionAlertDetailsView(activity);
