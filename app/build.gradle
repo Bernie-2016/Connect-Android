@@ -40,7 +40,8 @@ dependencies {
     compile 'com.google.dagger:dagger:2.0'
     provided 'com.google.dagger:dagger-compiler:2.0'
     provided 'org.glassfish:javax.annotation:10.0-b28'
-    provided 'com.google.auto.value:auto-value:1.1'
+    compile 'com.github.frankiesardo:auto-parcel:0.3.1'
+    apt 'com.github.frankiesardo:auto-parcel-processor:0.3.1'
 
     compile 'com.annimon:stream:1.0.6'
     compile 'io.reactivex:rxandroid:1.1.0'

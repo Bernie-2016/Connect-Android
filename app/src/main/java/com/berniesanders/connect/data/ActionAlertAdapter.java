@@ -10,7 +10,11 @@ import android.view.ViewGroup;
 import com.berniesanders.connect.R;
 import com.berniesanders.connect.view.ActionAlertViewHolder;
 
+import java.util.Collections;
 import java.util.List;
+
+import rx.Observable;
+import rx.subjects.PublishSubject;
 
 /**
  * A recycler view adapter for Action Alerts
@@ -18,58 +22,46 @@ import java.util.List;
  * Created by John on 2/21/16.
  */
 public class ActionAlertAdapter extends RecyclerView.Adapter<ActionAlertViewHolder> {
-    
-    private List<ActionAlert> alerts;
-    private final Callback callback;
     private final LayoutInflater inflater;
+    private final PublishSubject<ActionAlert> mSubject = PublishSubject.create();
 
-    public ActionAlertAdapter(Context context, Callback callback) {
-        this(context, null, callback);
-    }
+    private List<ActionAlert> alerts = Collections.emptyList();
 
-    public ActionAlertAdapter(Context context, List<ActionAlert> alerts, Callback callback) {
-        this.alerts = alerts;
-        this.callback = callback;
+    public ActionAlertAdapter(Context context) {
         inflater = LayoutInflater.from(context);
     }
 
     @Override
     public int getItemCount() {
-        if (alerts == null) {
-            return 0;
-        }
         return alerts.size();
     }
 
     @Override
     public long getItemId(int position) {
-        return position;
+        return RecyclerView.NO_ID;
     }
 
     @Override
     public void onBindViewHolder(ActionAlertViewHolder alertViewHolder, int position) {
-        ActionAlert alert = alerts.get(position);
-        alertViewHolder.alertTitleTV.setText(alert.title());
+        final ActionAlert alert = alerts.get(position);
 
-        // Set on click listener
-        View view = alertViewHolder.itemView;
-        view.setOnClickListener(v -> callback.itemSelected(position, alert));
+        alertViewHolder.alertTitleTV.setText(alert.title());
+        alertViewHolder.itemView.setOnClickListener(view -> mSubject.onNext(alert));
     }
 
     @Override
-    public ActionAlertViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public ActionAlertViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View itemView = inflater.inflate(R.layout.alert_item, viewGroup, false);
 
         return new ActionAlertViewHolder(itemView);
     }
 
-    public void setAlerts(@NonNull List<ActionAlert> alerts) {
+    public Observable<ActionAlert> getSelectedItems() {
+        return mSubject;
+    }
+
+    public void setActionAlerts(@NonNull List<ActionAlert> alerts) {
         this.alerts = alerts;
         notifyDataSetChanged();
     }
-
-    public interface Callback {
-        void itemSelected(int position, ActionAlert alert);
-    }
-
 }

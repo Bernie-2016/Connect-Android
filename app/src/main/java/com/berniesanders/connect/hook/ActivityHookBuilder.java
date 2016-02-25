@@ -8,7 +8,6 @@ public class ActivityHookBuilder {
     private ActivityOnDestroy mOnDestroy;
     private ActivityOnResume mOnResume;
     private ActivityOnPause mOnPause;
-
     private ActivityOnSaveInstanceState mOnSaveInstanceState;
 
     public ActivityHookBuilder onPause(final ActivityOnPause onPause) {
@@ -68,7 +67,7 @@ public class ActivityHookBuilder {
 
             @Override
             public void onSaveInstanceState(final AppCompatActivity activity, final Bundle outState) {
-                if (mOnCreate != null) {
+                if (mOnSaveInstanceState != null) {
                     mOnSaveInstanceState.onSaveInstanceState(activity, outState);
                 }
             }
