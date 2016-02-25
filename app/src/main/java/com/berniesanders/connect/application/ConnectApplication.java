@@ -1,11 +1,11 @@
-package com.berniesanders.connect;
+package com.berniesanders.connect.application;
 
 import android.app.Application;
-import android.content.Context;
 
-import com.berniesanders.connect.dagger.ApplicationComponent;
-import com.berniesanders.connect.dagger.ApplicationModule;
-import com.berniesanders.connect.dagger.DaggerApplicationComponent;
+import com.berniesanders.connect.BuildConfig;
+import com.berniesanders.connect.application.dagger.ApplicationComponent;
+import com.berniesanders.connect.application.dagger.ApplicationModule;
+import com.berniesanders.connect.application.dagger.DaggerApplicationComponent;
 
 import timber.log.Timber;
 
