@@ -4,14 +4,16 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.annimon.stream.Collectors;
+import com.berniesanders.connect.application.ConnectApplication;
+import com.berniesanders.connect.dagger.ActivityComponent;
+import com.berniesanders.connect.dagger.ActivityModule;
+import com.berniesanders.connect.dagger.DaggerActivityComponent;
 import com.berniesanders.connect.hook.ActivityHook;
-import com.berniesanders.connect.hook.ResumePauseLogger;
 import com.berniesanders.connect.hook.SubscriptionManagerHook;
 import com.berniesanders.connect.rx.ActivitySubscriptionManager;
 import com.berniesanders.connect.rx.SubscriptionManager;
-
-import java.util.LinkedList;
-import java.util.List;
+import com.berniesanders.connect.util.StreamUtil;
 
 import rx.Observable;
 import rx.Observer;
@@ -19,21 +21,29 @@ import rx.functions.Action0;
 import rx.functions.Action1;
 
 public abstract class BaseActivity extends AppCompatActivity {
-
     private final SubscriptionManager<Activity> subscriptionManager = new ActivitySubscriptionManager(this);
 
     private Iterable<ActivityHook> mHooks;
+    private ActivityComponent mComponent;
 
-    protected Iterable<ActivityHook> getHooks() {
-        List<ActivityHook> hooks = new LinkedList<>();
-        hooks.add(new SubscriptionManagerHook(subscriptionManager));
-        hooks.add(ResumePauseLogger.createHook());
-        return hooks;
+    protected abstract Iterable<ActivityHook> getHooks();
+
+    public ActivityComponent getObjectGraph() {
+        if (mComponent == null) {
+            mComponent = DaggerActivityComponent.builder()
+                    .applicationComponent(((ConnectApplication) getApplication()).getObjectGraph())
+                    .activityModule(new ActivityModule(this))
+                    .build();
+        }
+
+        return mComponent;
     }
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
-        mHooks = getHooks();
+        mHooks = StreamUtil.append(getHooks(), new SubscriptionManagerHook(subscriptionManager))
+                .collect(Collectors.toList());
+
         super.onCreate(savedInstanceState);
 
         for (final ActivityHook hook : mHooks) {
