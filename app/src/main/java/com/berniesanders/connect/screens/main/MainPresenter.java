@@ -5,45 +5,44 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.berniesanders.connect.dagger.ActivityScope;
-import com.berniesanders.connect.presenter.SubscribingPresenter;
-import com.berniesanders.connect.screens.detail.DetailActivity;
-import com.berniesanders.connect.screens.detail.DetailModel;
 import com.berniesanders.connect.hook.ActivityHook;
 import com.berniesanders.connect.hook.ActivityHookBuilder;
-import com.berniesanders.connect.hook.HasActivityHooks;
+import com.berniesanders.connect.rx.ActivitySubscriptionManager;
+import com.berniesanders.connect.screens.detail.DetailActivity;
+import com.berniesanders.connect.screens.detail.DetailModel;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.LinkedList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import timber.log.Timber;
 
 @ActivityScope
-public class MainPresenter extends SubscribingPresenter {
+public class MainPresenter {
     private final MainModel mModel;
     private final MainView mView;
+    private final ActivitySubscriptionManager mSubscriptionManager;
 
     @Inject
-    public MainPresenter(final MainModel model, final MainView view) {
+    public MainPresenter(final MainModel model, final MainView view, final ActivitySubscriptionManager subscriptionManager) {
         mModel = model;
         mView = view;
+        mSubscriptionManager = subscriptionManager;
     }
 
-    @Override
     public Collection<ActivityHook> getActivityHooks() {
         return Arrays.asList(
+                mSubscriptionManager.getActivityHook(),
                 mView.getActivityHook(),
                 mModel.getActivityHook(),
-                getSubscriptionManagingHookBuilder().build());
+                new ActivityHookBuilder()
+                        .onCreate(this::onCreate)
+                        .build());
     }
 
-    @Override
-    protected void onCreate(final AppCompatActivity activity, final Bundle savedInstanceState) {
-        super.onCreate(activity, savedInstanceState);
-        subscribe(mView.getSelectedActionAlerts(),
+    private void onCreate(final AppCompatActivity activity, final Bundle savedInstanceState) {
+        mSubscriptionManager.subscribe(mView.getSelectedActionAlerts(),
                 actionAlert -> {
                     final Intent intent = new Intent(activity, DetailActivity.class);
 
@@ -52,7 +51,7 @@ public class MainPresenter extends SubscribingPresenter {
                 },
                 error -> Timber.e(error, "selection action alert"));
 
-        subscribe(mModel.getActionAlerts(),
+        mSubscriptionManager.subscribe(mModel.getActionAlerts(),
                 mView::setActionAlerts,
                 error -> Timber.e(error, "action alerts"));
     }

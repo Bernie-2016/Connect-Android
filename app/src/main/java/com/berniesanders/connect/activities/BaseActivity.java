@@ -10,7 +10,6 @@ import com.berniesanders.connect.dagger.DaggerActivityComponent;
 import com.berniesanders.connect.hook.ActivityHook;
 
 public abstract class BaseActivity extends AppCompatActivity {
-
     private Iterable<ActivityHook> mHooks;
     private ActivityComponent mComponent;
 

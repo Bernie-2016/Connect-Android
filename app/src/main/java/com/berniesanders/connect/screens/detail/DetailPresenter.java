@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity;
 import com.berniesanders.connect.dagger.ActivityScope;
 import com.berniesanders.connect.hook.ActivityHook;
 import com.berniesanders.connect.hook.ActivityHookBuilder;
-import com.berniesanders.connect.hook.HasActivityHooks;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -14,7 +13,7 @@ import java.util.Collection;
 import javax.inject.Inject;
 
 @ActivityScope
-public class DetailPresenter implements HasActivityHooks {
+public class DetailPresenter {
     private final DetailModel mModel;
     private final DetailView mView;
 
@@ -24,7 +23,6 @@ public class DetailPresenter implements HasActivityHooks {
         mView = view;
     }
 
-    @Override
     public Collection<ActivityHook> getActivityHooks() {
         return Arrays.asList(
                 mView.getActivityHook(),
