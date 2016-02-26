@@ -31,12 +31,7 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
  */
 public abstract class SubscriptionManager<T> {
     private final T instance;
-    private final Func1<T, Boolean> predicate = new Func1<T, Boolean>() {
-        @Override
-        public Boolean call(T object) {
-            return validate(object);
-        }
-    };
+    private final Func1<T, Boolean> predicate = this::validate;
     private final CompositeSubscription subscriptions = new CompositeSubscription();
 
     public SubscriptionManager(T instance) {
@@ -46,7 +41,7 @@ public abstract class SubscriptionManager<T> {
     public <O> void subscribe(final Observable<O> source, final Observer<O> observer) {
         assertUiThread();
         Subscription subscription = source.observeOn(mainThread())
-                .lift(new OperatorConditionalBinding<O, T>(instance, predicate))
+                .lift(new OperatorConditionalBinding<>(instance, predicate))
                 .subscribe(observer);
         subscriptions.add(subscription);
     }

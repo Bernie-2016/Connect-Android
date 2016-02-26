@@ -25,7 +25,7 @@ public class ActionAlertAdapter extends RecyclerView.Adapter<ActionAlertViewHold
     private final LayoutInflater inflater;
     private final PublishSubject<ActionAlert> mSubject = PublishSubject.create();
 
-    private List<ActionAlert> alerts = Collections.emptyList();
+    private List<ActionAlert> mAlerts = Collections.emptyList();
 
     public ActionAlertAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -33,7 +33,7 @@ public class ActionAlertAdapter extends RecyclerView.Adapter<ActionAlertViewHold
 
     @Override
     public int getItemCount() {
-        return alerts.size();
+        return mAlerts.size();
     }
 
     @Override
@@ -43,7 +43,7 @@ public class ActionAlertAdapter extends RecyclerView.Adapter<ActionAlertViewHold
 
     @Override
     public void onBindViewHolder(ActionAlertViewHolder alertViewHolder, int position) {
-        final ActionAlert alert = alerts.get(position);
+        final ActionAlert alert = mAlerts.get(position);
 
         alertViewHolder.alertTitleTV.setText(alert.title());
         alertViewHolder.itemView.setOnClickListener(view -> mSubject.onNext(alert));
@@ -61,7 +61,10 @@ public class ActionAlertAdapter extends RecyclerView.Adapter<ActionAlertViewHold
     }
 
     public void setActionAlerts(@NonNull List<ActionAlert> alerts) {
-        this.alerts = alerts;
+        if (!alerts.equals(mAlerts)) {
+            mAlerts = alerts;
+        }
+
         notifyDataSetChanged();
     }
 }
