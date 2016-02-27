@@ -1,10 +1,10 @@
 package com.berniesanders.connect.screens.main;
 
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.widget.FrameLayout;
 
 import com.berniesanders.connect.R;
 import com.berniesanders.connect.dagger.ActivityScope;
@@ -26,11 +26,11 @@ public class MainView {
     private ActionAlertAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    @Bind(value = R.id.root)
-    FrameLayout mRoot;
-
-    @Bind(R.id.alertListView)
+    @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
+
+    @Bind(R.id.navigation_view)
+    NavigationView mNavigationView;
 
     @Inject
     public MainView() {
@@ -51,6 +51,9 @@ public class MainView {
 
         mRecyclerView.setLayoutManager(mLayoutManager);
         mRecyclerView.setAdapter(mAdapter);
+
+        mNavigationView.inflateHeaderView(R.layout.drawer_header);
+        mNavigationView.inflateMenu(R.menu.menu_main);
     }
 
     public void setActionAlerts(final List<ActionAlert> actionAlerts) {
