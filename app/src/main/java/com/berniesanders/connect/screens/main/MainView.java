@@ -2,11 +2,16 @@ package com.berniesanders.connect.screens.main;
 
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.MenuItem;
 
 import com.berniesanders.connect.R;
+import com.berniesanders.connect.controller.DrawerController;
 import com.berniesanders.connect.dagger.ActivityScope;
 import com.berniesanders.connect.data.ActionAlert;
 import com.berniesanders.connect.data.ActionAlertAdapter;
@@ -28,9 +33,13 @@ public class MainView {
 
     private ActionAlertAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
+    private DrawerController mDrawerController;
 
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
+
+    @Bind(R.id.drawer_layout)
+    DrawerLayout mDrawerLayout;
 
     @Bind(R.id.navigation_view)
     NavigationView mNavigationView;
@@ -58,6 +67,11 @@ public class MainView {
 
         mNavigationView.inflateHeaderView(R.layout.drawer_header);
         mNavigationView.inflateMenu(R.menu.menu_main);
+        mDrawerController = new DrawerController(mDrawerLayout, mNavigationView);
+    }
+
+    public DrawerController getDrawerController() {
+        return mDrawerController;
     }
 
     public void setActionAlerts(final List<ActionAlert> actionAlerts) {
@@ -68,12 +82,12 @@ public class MainView {
         return mAdapter.getSelectedItems();
     }
 
-    public void showTerms() {
-        mAgreeDialog.makeTerms().show();
+    public void showTerms(final boolean agreed) {
+        mAgreeDialog.showTerms(agreed);
     }
 
-    public void showPrivacy() {
-        mAgreeDialog.makePrivacy().show();
+    public void showPrivacy(final boolean agreed) {
+        mAgreeDialog.showPrivacy(agreed);
     }
 
     public Observable<Boolean> onAgreeToTerms() {

@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="@string/feedback" />
-    <item android:title="@string/about" />
-    <item android:title="@string/terms_and_conditions" />
-    <item android:title="@string/privacy_policy" />
+    <item
+        android:id="@+id/feedback"
+        android:title="@string/feedback"
+        />
+
+    <item
+        android:id="@+id/about"
+        android:title="@string/about"
+        />
+
+    <item
+        android:id="@+id/terms_and_conditions"
+        android:title="@string/terms_and_conditions"
+        />
+
+    <item
+        android:id="@+id/privacy_policy"
+        android:title="@string/privacy_policy"
+        />
 </menu>

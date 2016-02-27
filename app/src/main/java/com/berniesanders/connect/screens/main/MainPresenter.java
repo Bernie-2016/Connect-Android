@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.berniesanders.connect.R;
 import com.berniesanders.connect.dagger.ActivityScope;
 import com.berniesanders.connect.hook.ActivityHook;
 import com.berniesanders.connect.hook.ActivityHookBuilder;
@@ -47,6 +48,25 @@ public class MainPresenter {
         whenAgree(activity, mView.onAgreeToTerms(), mModel::agreeToTerms);
         whenAgree(activity, mView.onAgreeToPrivacy(), mModel::agreeToPrivacy);
 
+        mView.getDrawerController().setMenuItemListener(itemId -> {
+            mView.getDrawerController().close();
+
+            switch (itemId) {
+                case R.id.feedback:
+                    break;
+                case R.id.about:
+                    break;
+                case R.id.terms_and_conditions:
+                    mView.showTerms(true);
+                    break;
+                case R.id.privacy_policy:
+                    mView.showPrivacy(true);
+                    break;
+            }
+
+            return false;
+        });
+
         mSubscriptionManager.subscribe(mView.getSelectedActionAlerts(),
                 actionAlert -> {
                     final Intent intent = new Intent(activity, DetailActivity.class);
@@ -60,10 +80,11 @@ public class MainPresenter {
     }
 
     private void render() {
-        if (mModel.hasNotAgreedToTerms()) {
-            mView.showTerms();
+        // TODO: check if the terms and conditions have been agreed to
+        if (false) {
+            mView.showTerms(false);
         } else if (mModel.hasNotAgreedToPrivacy()) {
-            mView.showPrivacy();
+            mView.showPrivacy(false);
         } else {
             mSubscriptionManager.subscribe(mModel.getActionAlerts(),
                     mView::setActionAlerts,
