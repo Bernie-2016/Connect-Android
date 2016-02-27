@@ -1,14 +1,15 @@
 package com.berniesanders.connect.screens.main;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.NavigationView.OnNavigationItemSelectedListener;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.widget.TextView;
 
 import com.berniesanders.connect.R;
 import com.berniesanders.connect.controller.DrawerController;
@@ -29,11 +30,15 @@ import rx.Observable;
 
 @ActivityScope
 public class MainView {
+    private final Context mContext;
     private final AgreeDialog mAgreeDialog;
 
     private ActionAlertAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private DrawerController mDrawerController;
+
+    @Bind(R.id.action_alerts_count)
+    TextView mActionAlertsCount;
 
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -45,7 +50,8 @@ public class MainView {
     NavigationView mNavigationView;
 
     @Inject
-    public MainView(final AgreeDialog agreeDialog) {
+    public MainView(final Context context, final AgreeDialog agreeDialog) {
+        mContext = context;
         mAgreeDialog = agreeDialog;
     }
 
@@ -56,6 +62,7 @@ public class MainView {
     }
 
     private void onCreate(final AppCompatActivity activity, final Bundle savedInstanceState) {
+        activity.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         activity.setContentView(R.layout.activity_main);
         ButterKnife.bind(this, activity);
 
@@ -75,7 +82,13 @@ public class MainView {
     }
 
     public void setActionAlerts(final List<ActionAlert> actionAlerts) {
-        mAdapter.setActionAlerts(actionAlerts);
+        if (actionAlerts.isEmpty()) {
+            mActionAlertsCount.setVisibility(View.GONE);
+        } else {
+            mActionAlertsCount.setVisibility(View.VISIBLE);
+            mActionAlertsCount.setText(mContext.getString(R.string.live_action_alerts, actionAlerts.size()));
+            mAdapter.setActionAlerts(actionAlerts);
+        }
     }
 
     public Observable<ActionAlert> getSelectedActionAlerts() {

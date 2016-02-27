@@ -2,6 +2,7 @@ package com.berniesanders.connect.screens.detail;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
 import android.widget.FrameLayout;
 
 import com.berniesanders.connect.R;
@@ -34,6 +35,7 @@ public class DetailView {
     }
 
     private void onCreate(final AppCompatActivity activity, final Bundle savedInstanceState) {
+        activity.supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         activity.setContentView(R.layout.activity_detail);
         ButterKnife.bind(this, activity);
 
