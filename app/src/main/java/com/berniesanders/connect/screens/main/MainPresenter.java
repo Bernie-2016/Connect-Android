@@ -16,6 +16,8 @@ import java.util.Collection;
 
 import javax.inject.Inject;
 
+import rx.Observable;
+import rx.functions.Action0;
 import timber.log.Timber;
 
 @ActivityScope
@@ -42,6 +44,9 @@ public class MainPresenter {
     }
 
     private void onCreate(final AppCompatActivity activity, final Bundle savedInstanceState) {
+        whenAgree(activity, mView.onAgreeToTerms(), mModel::agreeToTerms);
+        whenAgree(activity, mView.onAgreeToPrivacy(), mModel::agreeToPrivacy);
+
         mSubscriptionManager.subscribe(mView.getSelectedActionAlerts(),
                 actionAlert -> {
                     final Intent intent = new Intent(activity, DetailActivity.class);
@@ -51,8 +56,31 @@ public class MainPresenter {
                 },
                 error -> Timber.e(error, "selection action alert"));
 
-        mSubscriptionManager.subscribe(mModel.getActionAlerts(),
-                mView::setActionAlerts,
-                error -> Timber.e(error, "action alerts"));
+        render();
+    }
+
+    private void render() {
+        if (mModel.hasNotAgreedToTerms()) {
+            mView.showTerms();
+        } else if (mModel.hasNotAgreedToPrivacy()) {
+            mView.showPrivacy();
+        } else {
+            mSubscriptionManager.subscribe(mModel.getActionAlerts(),
+                    mView::setActionAlerts,
+                    error -> Timber.e(error, "action alerts"));
+        }
+    }
+
+    private void whenAgree(final AppCompatActivity activity, final Observable<Boolean> agreeObservable, final Action0 onAgree) {
+        mSubscriptionManager.subscribe(
+                agreeObservable.onErrorResumeNext(Observable.just(false)),
+                didAgree -> {
+                    if (didAgree) {
+                        onAgree.call();
+                        render();
+                    } else {
+                        activity.finish();
+                    }
+                });
     }
 }

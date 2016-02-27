@@ -2,8 +2,10 @@ package com.berniesanders.connect.application.dagger;
 
 import android.content.Context;
 
+import com.berniesanders.connect.application.ApplicationPreferences;
 import com.berniesanders.connect.application.ConnectApplication;
 import com.berniesanders.connect.api.ConnectApi;
+import com.berniesanders.connect.application.PrefName;
 import com.berniesanders.connect.gson.GsonFactory;
 import com.berniesanders.connect.model.ActionAlertsModel;
 import com.google.gson.Gson;
@@ -27,6 +29,12 @@ public class ApplicationModule {
     @Provides
     public Context provideContext() {
         return mApplication;
+    }
+
+    @Provides
+    @Singleton
+    public ApplicationPreferences provideApplicationPreferences(final Context context) {
+        return new ApplicationPreferences(context.getSharedPreferences(PrefName.APPLICATION, Context.MODE_PRIVATE));
     }
 
     @Provides

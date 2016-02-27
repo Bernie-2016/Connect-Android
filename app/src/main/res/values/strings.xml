@@ -2,7 +2,13 @@
     <string name="app_name">Connect</string>
 
     <string name="feedback">Feedback</string>
-    <string name="privacy_policy">Privacy Policy</string>
     <string name="terms_and_conditions">Terms &amp; Conditions</string>
+    <string name="terms_and_conditions_content">These are the terms and conditions. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus maximus leo at justo facilisis dapibus. Praesent metus nulla, imperdiet et massa id, convallis tincidunt odio. Sed a lectus in orci vestibulum interdum. Praesent nec lectus nec ligula sodales molestie vel vel est. Aliquam cursus velit a tortor consectetur, ut rhoncus arcu scelerisque. Nunc sed lectus posuere, interdum orci id, cursus nulla. Morbi commodo vehicula euismod. Vestibulum facilisis mauris quis convallis faucibus.</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="privacy_policy_content">This is the privacy policy. Etiam faucibus orci sed orci interdum consequat. Nullam finibus ex neque, id vulputate diam condimentum vel. Sed justo tellus, placerat sit amet tristique eu, sodales sed metus. Vestibulum tincidunt auctor quam non gravida. Aenean vitae metus erat. Fusce tincidunt, odio vitae facilisis faucibus, dolor quam ultricies neque, vel luctus elit justo sit amet mi. Maecenas aliquet metus quis dolor pretium, quis aliquam nisi dictum. Etiam nec suscipit lectus. Curabitur volutpat nunc et odio blandit, ut molestie orci egestas. Nunc eget turpis volutpat sapien varius iaculis at sed purus. Nullam ornare lorem at pellentesque lobortis. Mauris venenatis, neque non placerat convallis, lectus sapien convallis sapien, eu lacinia libero magna in ante. Sed tempus, diam sed imperdiet luctus, libero sapien ultricies dui, nec ultricies diam leo nec risus. Integer aliquam interdum est, non hendrerit velit venenatis in. Sed eget turpis eu lacus aliquam viverra. Nunc vitae ipsum nulla. </string>
     <string name="about">About</string>
+
+    <string name="i_agree">I agree</string>
+    <string name="close_app">close app</string>
+
 </resources>

@@ -10,6 +10,7 @@ import com.berniesanders.connect.R;
 import com.berniesanders.connect.dagger.ActivityScope;
 import com.berniesanders.connect.data.ActionAlert;
 import com.berniesanders.connect.data.ActionAlertAdapter;
+import com.berniesanders.connect.dialog.AgreeDialog;
 import com.berniesanders.connect.hook.ActivityHook;
 import com.berniesanders.connect.hook.ActivityHookBuilder;
 
@@ -23,6 +24,8 @@ import rx.Observable;
 
 @ActivityScope
 public class MainView {
+    private final AgreeDialog mAgreeDialog;
+
     private ActionAlertAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
 
@@ -33,7 +36,8 @@ public class MainView {
     NavigationView mNavigationView;
 
     @Inject
-    public MainView() {
+    public MainView(final AgreeDialog agreeDialog) {
+        mAgreeDialog = agreeDialog;
     }
 
     public ActivityHook getActivityHook() {
@@ -62,5 +66,21 @@ public class MainView {
 
     public Observable<ActionAlert> getSelectedActionAlerts() {
         return mAdapter.getSelectedItems();
+    }
+
+    public void showTerms() {
+        mAgreeDialog.makeTerms().show();
+    }
+
+    public void showPrivacy() {
+        mAgreeDialog.makePrivacy().show();
+    }
+
+    public Observable<Boolean> onAgreeToTerms() {
+        return mAgreeDialog.onAgreeToTerms();
+    }
+
+    public Observable<Boolean> onAgreeToPrivacy() {
+        return mAgreeDialog.onAgreeToPrivacy();
     }
 }
