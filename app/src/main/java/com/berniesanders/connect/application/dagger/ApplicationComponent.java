@@ -2,6 +2,7 @@ package com.berniesanders.connect.application.dagger;
 
 import com.berniesanders.connect.application.ApplicationPreferences;
 import com.berniesanders.connect.model.ActionAlertsModel;
+import com.berniesanders.connect.util.DimensionUtil;
 
 import javax.inject.Singleton;
 
@@ -12,4 +13,5 @@ import dagger.Component;
 public interface ApplicationComponent {
     ApplicationPreferences getApplicationPreferences();
     ActionAlertsModel getActionAlertsModel();
+    DimensionUtil getDimensionUtil();
 }

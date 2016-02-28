@@ -1,6 +1,8 @@
 package com.berniesanders.connect.application.dagger;
 
 import android.content.Context;
+import android.content.res.Resources;
+import android.util.DisplayMetrics;
 
 import com.berniesanders.connect.application.ApplicationPreferences;
 import com.berniesanders.connect.application.ConnectApplication;
@@ -29,6 +31,16 @@ public class ApplicationModule {
     @Provides
     public Context provideContext() {
         return mApplication;
+    }
+
+    @Provides
+    public Resources provideResources(final Context context) {
+        return context.getResources();
+    }
+
+    @Provides
+    public DisplayMetrics provideDisplayMetrics(final Resources resources) {
+        return resources.getDisplayMetrics();
     }
 
     @Provides

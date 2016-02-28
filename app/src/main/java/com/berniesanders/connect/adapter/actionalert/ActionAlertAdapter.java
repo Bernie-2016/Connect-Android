@@ -1,4 +1,4 @@
-package com.berniesanders.connect.data;
+package com.berniesanders.connect.adapter.actionalert;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -8,7 +8,8 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.berniesanders.connect.R;
-import com.berniesanders.connect.view.ActionAlertViewHolder;
+import com.berniesanders.connect.data.ActionAlert;
+import com.berniesanders.connect.recycler.DecorableAdapter;
 
 import java.util.Collections;
 import java.util.List;
@@ -21,9 +22,10 @@ import rx.subjects.PublishSubject;
  *
  * Created by John on 2/21/16.
  */
-public class ActionAlertAdapter extends RecyclerView.Adapter<ActionAlertViewHolder> {
+public class ActionAlertAdapter extends DecorableAdapter<ActionAlertViewHolder> {
     private final LayoutInflater inflater;
-    private final PublishSubject<ActionAlert> mSubject = PublishSubject.create();
+    private final PublishSubject<ActionAlert> mSelectedSubject = PublishSubject.create();
+    private final PublishSubject<Void> mChangedSubject = PublishSubject.create();
 
     private List<ActionAlert> mAlerts = Collections.emptyList();
 
@@ -45,19 +47,29 @@ public class ActionAlertAdapter extends RecyclerView.Adapter<ActionAlertViewHold
     public void onBindViewHolder(ActionAlertViewHolder alertViewHolder, int position) {
         final ActionAlert alert = mAlerts.get(position);
 
-        alertViewHolder.alertTitleTV.setText(alert.title());
-        alertViewHolder.itemView.setOnClickListener(view -> mSubject.onNext(alert));
+        alertViewHolder.textPrimary.setText(alert.title());
+        alertViewHolder.itemView.setOnClickListener(view -> mSelectedSubject.onNext(alert));
     }
 
     @Override
     public ActionAlertViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View itemView = inflater.inflate(R.layout.alert_item, viewGroup, false);
+        final View itemView = inflater.inflate(R.layout.alert_item, viewGroup, false);
 
-        return new ActionAlertViewHolder(itemView);
+        return ActionAlertViewHolder.createActionAlert(itemView);
+    }
+
+    @Override
+    public int getMaxViewType() {
+        return 0;
+    }
+
+    @Override
+    public Observable<Void> onChange() {
+        return mChangedSubject;
     }
 
     public Observable<ActionAlert> getSelectedItems() {
-        return mSubject;
+        return mSelectedSubject;
     }
 
     public void setActionAlerts(@NonNull List<ActionAlert> alerts) {
@@ -66,5 +78,6 @@ public class ActionAlertAdapter extends RecyclerView.Adapter<ActionAlertViewHold
         }
 
         notifyDataSetChanged();
+        mChangedSubject.onNext(null);
     }
 }

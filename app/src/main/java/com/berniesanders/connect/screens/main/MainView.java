@@ -7,18 +7,20 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.View;
 import android.view.Window;
-import android.widget.TextView;
 
 import com.berniesanders.connect.R;
+import com.berniesanders.connect.adapter.actionalert.ActionAlertAdapter;
+import com.berniesanders.connect.adapter.actionalert.ActionAlertHeader;
 import com.berniesanders.connect.controller.DrawerController;
 import com.berniesanders.connect.dagger.ActivityScope;
 import com.berniesanders.connect.data.ActionAlert;
-import com.berniesanders.connect.data.ActionAlertAdapter;
 import com.berniesanders.connect.dialog.AgreeDialog;
 import com.berniesanders.connect.hook.ActivityHook;
 import com.berniesanders.connect.hook.ActivityHookBuilder;
+import com.berniesanders.connect.recycler.DecorableAdapter;
+import com.berniesanders.connect.recycler.RecyclerAdapterDecorator;
+import com.berniesanders.connect.util.DimensionUtil;
 
 import java.util.List;
 
@@ -32,13 +34,12 @@ import rx.Observable;
 public class MainView {
     private final Context mContext;
     private final AgreeDialog mAgreeDialog;
+    private final DimensionUtil mDimensionUtil;
 
     private ActionAlertAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private DrawerController mDrawerController;
-
-    @Bind(R.id.action_alerts_count)
-    TextView mActionAlertsCount;
+    private ActionAlertHeader mActionAlertHeader;
 
     @Bind(R.id.recycler_view)
     RecyclerView mRecyclerView;
@@ -50,9 +51,10 @@ public class MainView {
     NavigationView mNavigationView;
 
     @Inject
-    public MainView(final Context context, final AgreeDialog agreeDialog) {
+    public MainView(final Context context, final AgreeDialog agreeDialog, final DimensionUtil dimensionUtil) {
         mContext = context;
         mAgreeDialog = agreeDialog;
+        mDimensionUtil = dimensionUtil;
     }
 
     public ActivityHook getActivityHook() {
@@ -68,9 +70,10 @@ public class MainView {
 
         mAdapter = new ActionAlertAdapter(activity);
         mLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
+        mActionAlertHeader = new ActionAlertHeader(activity);
 
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setAdapter(RecyclerAdapterDecorator.decorate(mAdapter, mActionAlertHeader));
 
         mNavigationView.inflateHeaderView(R.layout.drawer_header);
         mNavigationView.inflateMenu(R.menu.menu_main);
@@ -82,13 +85,8 @@ public class MainView {
     }
 
     public void setActionAlerts(final List<ActionAlert> actionAlerts) {
-        if (actionAlerts.isEmpty()) {
-            mActionAlertsCount.setVisibility(View.GONE);
-        } else {
-            mActionAlertsCount.setVisibility(View.VISIBLE);
-            mActionAlertsCount.setText(mContext.getString(R.string.live_action_alerts, actionAlerts.size()));
-            mAdapter.setActionAlerts(actionAlerts);
-        }
+        mActionAlertHeader.setNumAlerts(actionAlerts.size());
+        mAdapter.setActionAlerts(actionAlerts);
     }
 
     public Observable<ActionAlert> getSelectedActionAlerts() {
