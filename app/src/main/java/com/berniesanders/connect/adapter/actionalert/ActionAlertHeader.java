@@ -39,6 +39,6 @@ public class ActionAlertHeader extends HeaderDecoration<ActionAlertViewHolder> {
             string = mContext.getString(R.string.live_action_alerts, adapter.getItemCount());
         }
 
-        holder.textPrimary.setText(string);
+        holder.textPrimary.ifPresent(view -> view.setText(string));
     }
 }

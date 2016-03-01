@@ -4,12 +4,11 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.view.ViewGroup;
 
-import com.berniesanders.connect.R;
 import com.berniesanders.connect.data.ActionAlert;
 import com.berniesanders.connect.recycler.DecorableAdapter;
+import com.berniesanders.connect.view.ActionAlertView;
 
 import java.util.Collections;
 import java.util.List;
@@ -47,15 +46,13 @@ public class ActionAlertAdapter extends DecorableAdapter<ActionAlertViewHolder> 
     public void onBindViewHolder(ActionAlertViewHolder alertViewHolder, int position) {
         final ActionAlert alert = mAlerts.get(position);
 
-        alertViewHolder.textPrimary.setText(alert.title());
+        alertViewHolder.actionAlertView.ifPresent(view -> view.setActionAlert(alert));
         alertViewHolder.itemView.setOnClickListener(view -> mSelectedSubject.onNext(alert));
     }
 
     @Override
     public ActionAlertViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        final View itemView = inflater.inflate(R.layout.alert_item, viewGroup, false);
-
-        return ActionAlertViewHolder.createActionAlert(itemView);
+        return ActionAlertViewHolder.createActionAlert(new ActionAlertView(viewGroup.getContext()));
     }
 
     @Override

@@ -19,6 +19,9 @@
     <color name="fb_blue">#3b5998</color>
 
     <color name="text_bg_yellow">#FCB040</color>
+    <color name="divider_grey">#D8D8D8</color>
+    <color name="twitter_grey">#F0F0F0</color>
+    <color name="text_grey">#555555</color>
 
     <color name="colorPrimary">@color/bernie_dark_blue</color>
     <color name="colorPrimaryDark">@color/bernie_darker_blue</color>

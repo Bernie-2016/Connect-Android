@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingTop="16dp"
+    >
+
+    <TextView
+        android:id="@+id/date"
+        style="@style/action_alert_text"
+        android:textSize="12sp"
+        android:textColor="@color/text_grey"
+        />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/action_alert_text"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        />
+
+    <TextView
+        android:id="@+id/message"
+        style="@style/action_alert_text"
+        android:layout_marginBottom="16dp"
+        android:textSize="16sp"
+        android:textColor="@color/text_grey"
+        />
+
+    <View
+        android:id="@+id/twitter_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/divider_grey"
+        />
+
+    <RelativeLayout
+        android:id="@+id/twitter_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:background="@color/twitter_grey"
+        >
+        
+        <ImageView
+            android:id="@+id/twitter_avatar"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_marginRight="16dp"
+            android:background="@color/bernie_dark_blue"
+            />
+
+        <TextView
+            android:id="@+id/twitter_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/twitter_avatar"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            />
+
+        <TextView
+            android:id="@+id/twitter_user"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/twitter_avatar"
+            android:layout_below="@id/twitter_name"
+            android:textSize="12sp"
+            android:textColor="@color/text_grey"
+            />
+
+        <TextView
+            android:id="@+id/twitter_tweet"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/twitter_avatar"
+            android:layout_below="@id/twitter_user"
+            android:textSize="16sp"
+            android:textColor="@android:color/black"
+            />
+        
+    </RelativeLayout>
+
+</LinearLayout>

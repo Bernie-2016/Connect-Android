@@ -14,11 +14,11 @@ public class DimensionUtil {
         mDisplayMetrics = displayMetrics;
     }
 
-    public int dpToPx(final int dp) {
-        return (int) (dp * mDisplayMetrics.density);
+    public float dpToPx(final float dp) {
+        return dp * mDisplayMetrics.density;
     }
 
-    public int pxToDp(final int px) {
-        return (int) (px / mDisplayMetrics.density);
+    public float pxToDp(final float px) {
+        return px / mDisplayMetrics.density;
     }
 }
