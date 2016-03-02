@@ -16,6 +16,7 @@
         android:paddingLeft="16dp"
         android:paddingRight="16dp"
         android:background="@drawable/floating_header_yellow"
+        android:textSize="16dp"
         android:textColor="@color/white"
         />
 

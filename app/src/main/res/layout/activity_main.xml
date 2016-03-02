@@ -5,16 +5,23 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/tile_fabric_blue"
     >
 
     <!--
     TODO: add an app bar
-    TODO: get recycler below the action alerts count and scrolling together
      -->
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="220dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/not_me_us"
+            />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycler_view"

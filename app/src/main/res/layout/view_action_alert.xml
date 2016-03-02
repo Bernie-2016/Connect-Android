@@ -4,30 +4,40 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:paddingTop="16dp"
     >
 
-    <TextView
-        android:id="@+id/date"
-        style="@style/action_alert_text"
-        android:textSize="12sp"
-        android:textColor="@color/text_grey"
-        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="16dp"
+        android:orientation="vertical"
+        >
 
-    <TextView
-        android:id="@+id/title"
-        style="@style/action_alert_text"
-        android:textSize="20sp"
-        android:textColor="@android:color/black"
-        />
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="12sp"
+            android:textColor="@color/text_grey"
+            />
 
-    <TextView
-        android:id="@+id/message"
-        style="@style/action_alert_text"
-        android:layout_marginBottom="16dp"
-        android:textSize="16sp"
-        android:textColor="@color/text_grey"
-        />
+        <TextView
+            android:id="@+id/title"
+            style="@style/action_alert_text"
+            android:maxLines="3"
+            android:textSize="20sp"
+            android:textColor="@android:color/black"
+            />
+
+        <TextView
+            android:id="@+id/message"
+            style="@style/action_alert_text"
+            android:maxLines="6"
+            android:textSize="16sp"
+            android:textColor="@color/text_grey"
+            />
+
+    </LinearLayout>
 
     <View
         android:id="@+id/twitter_divider"
@@ -43,7 +53,7 @@
         android:padding="16dp"
         android:background="@color/twitter_grey"
         >
-        
+
         <ImageView
             android:id="@+id/twitter_avatar"
             android:layout_width="40dp"
@@ -82,7 +92,7 @@
             android:textSize="16sp"
             android:textColor="@android:color/black"
             />
-        
+
     </RelativeLayout>
 
 </LinearLayout>

@@ -73,7 +73,15 @@ public class ActionAlertView extends CardView {
     public ActionAlertView setActionAlert(final ActionAlert actionAlert) {
         mDate.setText(actionAlert.date());
         mTitle.setText(actionAlert.title());
-        mMessage.setText(actionAlert.body().replaceAll(">", "").replaceAll(".*https?.*", "").trim());
+
+        final String message = actionAlert.body().replaceAll(">", "").replaceAll(".*https?.*", "").trim();
+
+        if (message.isEmpty()) {
+            mMessage.setVisibility(View.GONE);
+        } else {
+            mMessage.setVisibility(View.VISIBLE);
+            mMessage.setText(message);
+        }
 
         if (actionAlert.tweetId().isPresent()) {
             mTwitterDivider.setVisibility(View.VISIBLE);
