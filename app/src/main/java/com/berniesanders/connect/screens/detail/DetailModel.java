@@ -7,21 +7,17 @@ import com.berniesanders.connect.dagger.ActivityScope;
 import com.berniesanders.connect.data.ActionAlert;
 import com.berniesanders.connect.hook.ActivityHook;
 import com.berniesanders.connect.hook.ActivityHookBuilder;
-import com.berniesanders.connect.model.ActionAlertsModel;
 
 import javax.inject.Inject;
 
 @ActivityScope
 public class DetailModel {
-    public static final String KEY_ACTION_ALERT_ID = "action-alert-id";
-
-    private final ActionAlertsModel mActionAlertsModel;
+    public static final String KEY_ACTION_ALERT = "action-alert";
 
     private ActionAlert mActionAlert;
 
     @Inject
-    public DetailModel(final ActionAlertsModel actionAlertsModel) {
-        mActionAlertsModel = actionAlertsModel;
+    public DetailModel() {
     }
 
     public ActivityHook getActivityHook() {
@@ -31,9 +27,7 @@ public class DetailModel {
     }
 
     private void onCreate(final AppCompatActivity activity, final Bundle savedInstanceState) {
-        final String id = activity.getIntent().getStringExtra(DetailModel.KEY_ACTION_ALERT_ID);
-
-        mActionAlert = mActionAlertsModel.getActionAlertById(id);
+        mActionAlert = activity.getIntent().getParcelableExtra(DetailModel.KEY_ACTION_ALERT);
     }
 
     public ActionAlert getActionAlert() {

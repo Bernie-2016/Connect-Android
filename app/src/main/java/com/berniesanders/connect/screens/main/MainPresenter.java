@@ -71,7 +71,7 @@ public class MainPresenter {
                 actionAlert -> {
                     final Intent intent = new Intent(activity, DetailActivity.class);
 
-                    intent.putExtra(DetailModel.KEY_ACTION_ALERT_ID, actionAlert.id());
+                    intent.putExtra(DetailModel.KEY_ACTION_ALERT, actionAlert);
                     activity.startActivity(intent);
                 },
                 error -> Timber.e(error, "selection action alert"));

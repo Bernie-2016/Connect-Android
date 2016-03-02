@@ -83,7 +83,7 @@ public class ActionAlertView extends CardView {
             mMessage.setText(message);
         }
 
-        if (actionAlert.tweetId().isPresent()) {
+        if (actionAlert.getTweetId().isPresent()) {
             mTwitterDivider.setVisibility(View.VISIBLE);
             mTwitterLayout.setVisibility(View.VISIBLE);
             mTwitterName.setText("Name");
