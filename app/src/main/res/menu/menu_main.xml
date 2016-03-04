@@ -11,11 +11,6 @@
         />
 
     <item
-        android:id="@+id/terms_and_conditions"
-        android:title="@string/terms_and_conditions"
-        />
-
-    <item
         android:id="@+id/privacy_policy"
         android:title="@string/privacy_policy"
         />

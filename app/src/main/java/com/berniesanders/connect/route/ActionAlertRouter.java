@@ -9,11 +9,8 @@ import com.berniesanders.connect.data.ActionAlert;
 import com.berniesanders.connect.screens.detail.DetailActivity;
 import com.berniesanders.connect.screens.detail.DetailModel;
 
-import javax.inject.Singleton;
-
 import rx.functions.Action1;
 
-@Singleton
 public class ActionAlertRouter {
     private final ActionAlert mActionAlert;
 

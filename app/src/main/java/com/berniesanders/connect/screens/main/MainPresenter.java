@@ -44,7 +44,6 @@ public class MainPresenter {
     }
 
     private void onCreate(final AppCompatActivity activity, final Bundle savedInstanceState) {
-        whenAgree(activity, mView.onAgreeToTerms(), mModel::agreeToTerms);
         whenAgree(activity, mView.onAgreeToPrivacy(), mModel::agreeToPrivacy);
 
         mView.getDrawerController().setMenuItemListener(itemId -> {
@@ -54,9 +53,6 @@ public class MainPresenter {
                 case R.id.feedback:
                     break;
                 case R.id.about:
-                    break;
-                case R.id.terms_and_conditions:
-                    mView.showTerms(true);
                     break;
                 case R.id.privacy_policy:
                     mView.showPrivacy(true);
@@ -74,10 +70,7 @@ public class MainPresenter {
     }
 
     private void render() {
-        // TODO: check if the terms and conditions have been agreed to
-        if (false) {
-            mView.showTerms(false);
-        } else if (mModel.hasNotAgreedToPrivacy()) {
+        if (mModel.hasNotAgreedToPrivacy()) {
             mView.showPrivacy(false);
         } else {
             mSubscriptionManager.subscribe(mModel.getActionAlerts(),

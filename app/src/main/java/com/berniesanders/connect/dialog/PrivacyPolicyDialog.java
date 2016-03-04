@@ -4,7 +4,9 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface.OnClickListener;
 import android.support.v7.app.AlertDialog.Builder;
+import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 import com.berniesanders.connect.R;
 import com.berniesanders.connect.dagger.ActivityScope;
@@ -15,41 +17,42 @@ import rx.Observable;
 import rx.subjects.PublishSubject;
 
 @ActivityScope
-public class AgreeDialog {
+public class PrivacyPolicyDialog {
     private static final String PRIVACY_POLICY_URL = "https://berniesanders.com/privacy-policy/";
 
     private final Activity mActivity;
-    private final PublishSubject<Boolean> mTermsSubject = PublishSubject.create();
     private final PublishSubject<Boolean> mPrivacySubject = PublishSubject.create();
 
     @Inject
-    public AgreeDialog(final Activity activity) {
+    public PrivacyPolicyDialog(final Activity activity) {
         mActivity = activity;
-    }
-
-    public Observable<Boolean> onAgreeToTerms() {
-        return mTermsSubject;
     }
 
     public Observable<Boolean> onAgreeToPrivacy() {
         return mPrivacySubject;
     }
 
-    public void showTerms(final boolean agreed) {
-        // TODO show the terms and conditions
-    }
-
-    public void showPrivacy(final boolean agreed) {
-        final WebView webView = (WebView) showDialog(agreed, mPrivacySubject).findViewById(R.id.webview);
+    public void show(final boolean agreed) {
+        final Dialog dialog = showDialog(agreed, mPrivacySubject);
+        final WebView webView = (WebView) dialog.findViewById(R.id.webview);
+        final View progressBar = dialog.findViewById(R.id.progress);
 
         webView.getSettings().setJavaScriptEnabled(true);
+
+        webView.setWebViewClient(new WebViewClient() {
+            public void onPageFinished(WebView view, String url) {
+                webView.setVisibility(View.VISIBLE);
+                progressBar.setVisibility(View.GONE);
+            }
+        });
+
         webView.loadUrl(PRIVACY_POLICY_URL);
     }
 
     private Dialog showDialog(final boolean agreed, final PublishSubject<Boolean> onAgree) {
         final Builder builder = new Builder(mActivity)
                 .setCancelable(agreed)
-                .setView(R.layout.webview_terms_pivacy)
+                .setView(R.layout.webview_pivacy_policy)
                 .setPositiveButton(getPositiveText(agreed), getPositiveListener(agreed, onAgree));
 
         if (!agreed) {
