@@ -3,46 +3,36 @@ package com.berniesanders.connect.recycler;
 import android.support.v7.widget.RecyclerView.ViewHolder;
 import android.view.ViewGroup;
 
-import com.annimon.stream.Collectors;
 import com.annimon.stream.Stream;
 
 import rx.Observable;
 
-public class RecyclerAdapterDecorator<VH extends ViewHolder> extends DecorableAdapter<VH> {
-    private final DecorableAdapter<VH> mAdapter;
-    private final RecyclerAdapterDecoration<VH> mDecoration;
+public class RecyclerAdapterDecorator extends DecorableAdapter {
+    private final DecorableAdapter mAdapter;
+    private final RecyclerAdapterDecoration mDecoration;
 
-    @SafeVarargs
-    public static <VH extends ViewHolder> DecorableAdapter<VH> decorate(final DecorableAdapter<VH> adapter, final RecyclerAdapterDecoration<VH>... decorations) {
-        final DecorableAdapter<VH> result;
-        Observable<Void> onChange = adapter.onChange();
+    public static DecorableAdapter decorate(final DecorableAdapter adapter, final RecyclerAdapterDecoration ... decorations) {
+        final DecorableAdapter result;
 
-        if (decorations == null || decorations.length == 0) {
+        if (decorations == null) {
             result = adapter;
         } else {
             result = Stream.of(decorations).reduce(adapter, RecyclerAdapterDecorator::new);
-
-            onChange = Observable.merge(Stream.concat(
-                    Stream.of(onChange),
-                    Stream.of(decorations).map(DataSetChangeable::onChange))
-                    .collect(Collectors.toList()));
         }
 
-        onChange.subscribe(next -> result.notifyDataSetChanged());
+        result.getDataChanges().subscribe(next -> result.notifyDataSetChanged());
         return result;
     }
 
-    public RecyclerAdapterDecorator(final DecorableAdapter<VH> adapter, final RecyclerAdapterDecoration<VH> decoration) {
+    public RecyclerAdapterDecorator(final DecorableAdapter adapter, final RecyclerAdapterDecoration decoration) {
         mAdapter = adapter;
         mDecoration = decoration;
-    }
 
-    private void subscribeOnChange(final Observable<Void> onChange) {
-        onChange.subscribe(next -> notifyDataSetChanged());
+        Observable.merge(adapter.getDataChanges(), decoration.getDataChanges()).subscribe(mDataChanges);
     }
 
     @Override
-    public VH onCreateViewHolder(final ViewGroup parent, final int viewType) {
+    public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
         int adapterMaxViewType = mAdapter.getMaxViewType();
 
         if (viewType <= adapterMaxViewType) {
@@ -53,11 +43,11 @@ public class RecyclerAdapterDecorator<VH extends ViewHolder> extends DecorableAd
     }
 
     @Override
-    public void onBindViewHolder(final VH holder, final int position) {
+    public void onBindViewHolder(final ViewHolder holder, final int position) {
         if (mDecoration.isAdapterPosition(mAdapter, position)) {
             mAdapter.onBindViewHolder(holder, mDecoration.getAdapterPosition(mAdapter, position));
         } else {
-            mDecoration.onBindViewHolder(mAdapter, holder, position);
+            mDecoration.onBindViewHolder(holder, position);
         }
     }
 
@@ -86,10 +76,5 @@ public class RecyclerAdapterDecorator<VH extends ViewHolder> extends DecorableAd
 
     private int toAdapterViewType(final int decorationViewType) {
         return decorationViewType + mAdapter.getMaxViewType() + 1;
-    }
-
-    @Override
-    public Observable<Void> onChange() {
-        return mAdapter.onChange();
     }
 }

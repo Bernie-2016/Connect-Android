@@ -72,7 +72,7 @@ public class MainView {
         activity.setContentView(R.layout.activity_main);
         ButterKnife.bind(this, activity);
 
-        mAdapter = new ActionAlertAdapter(activity);
+        mAdapter = new ActionAlertAdapter();
         mLayoutManager = new LinearLayoutManager(activity, LinearLayoutManager.VERTICAL, false);
         mActionAlertHeader = new ActionAlertHeader(activity);
 

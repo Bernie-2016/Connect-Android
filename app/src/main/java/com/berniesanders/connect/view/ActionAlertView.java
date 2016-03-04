@@ -5,8 +5,6 @@ import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -17,8 +15,14 @@ import com.berniesanders.connect.util.DimensionUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.subjects.PublishSubject;
 
 public class ActionAlertView extends CardView {
+    private final PublishSubject<ActionAlert> mOnSelected = PublishSubject.create();
+
+    private ActionAlert mActionAlert;
+
     @Bind(R.id.date)
     TextView mDate;
 
@@ -68,32 +72,43 @@ public class ActionAlertView extends CardView {
         setRadius(dimensionUtil.dpToPx(4));
         setUseCompatPadding(true);
         setShadowPadding(padding, padding, padding, padding);
+
+        setOnClickListener(view -> {
+            if (mActionAlert != null) {
+                mOnSelected.onNext(mActionAlert);
+            }
+        });
     }
 
-    public ActionAlertView setActionAlert(final ActionAlert actionAlert) {
-        mDate.setText(actionAlert.date());
-        mTitle.setText(actionAlert.title());
+    public Observable<ActionAlert> onSelected() {
+        return mOnSelected;
+    }
 
-        final String message = actionAlert.body().replaceAll(">", "").replaceAll(".*https?.*", "").trim();
+    public void setActionAlert(final ActionAlert actionAlert) {
+        if (!actionAlert.equals(mActionAlert)) {
+            mActionAlert = actionAlert;
+            mDate.setText(actionAlert.date());
+            mTitle.setText(actionAlert.title());
 
-        if (message.isEmpty()) {
-            mMessage.setVisibility(View.GONE);
-        } else {
-            mMessage.setVisibility(View.VISIBLE);
-            mMessage.setText(message);
+            final String message = actionAlert.body().replaceAll(">", "").replaceAll(".*https?.*", "").trim();
+
+            if (message.isEmpty()) {
+                mMessage.setVisibility(View.GONE);
+            } else {
+                mMessage.setVisibility(View.VISIBLE);
+                mMessage.setText(message);
+            }
+
+            if (actionAlert.getTweetId().isPresent()) {
+                mTwitterDivider.setVisibility(View.VISIBLE);
+                mTwitterLayout.setVisibility(View.VISIBLE);
+                mTwitterName.setText("Name");
+                mTwitterUser.setText("User");
+                mTwitterTweet.setText("Tweet");
+            } else {
+                mTwitterDivider.setVisibility(View.GONE);
+                mTwitterLayout.setVisibility(View.GONE);
+            }
         }
-
-        if (actionAlert.getTweetId().isPresent()) {
-            mTwitterDivider.setVisibility(View.VISIBLE);
-            mTwitterLayout.setVisibility(View.VISIBLE);
-            mTwitterName.setText("Name");
-            mTwitterUser.setText("User");
-            mTwitterTweet.setText("Tweet");
-        } else {
-            mTwitterDivider.setVisibility(View.GONE);
-            mTwitterLayout.setVisibility(View.GONE);
-        }
-
-        return this;
     }
 }

@@ -8,9 +8,8 @@ import com.berniesanders.connect.R;
 import com.berniesanders.connect.dagger.ActivityScope;
 import com.berniesanders.connect.hook.ActivityHook;
 import com.berniesanders.connect.hook.ActivityHookBuilder;
+import com.berniesanders.connect.route.ActionAlertRouter;
 import com.berniesanders.connect.rx.ActivitySubscriptionManager;
-import com.berniesanders.connect.screens.detail.DetailActivity;
-import com.berniesanders.connect.screens.detail.DetailModel;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -68,12 +67,7 @@ public class MainPresenter {
         });
 
         mSubscriptionManager.subscribe(mView.getSelectedActionAlerts(),
-                actionAlert -> {
-                    final Intent intent = new Intent(activity, DetailActivity.class);
-
-                    intent.putExtra(DetailModel.KEY_ACTION_ALERT, actionAlert);
-                    activity.startActivity(intent);
-                },
+                actionAlert -> new ActionAlertRouter(actionAlert).selectAction().call(activity),
                 error -> Timber.e(error, "selection action alert"));
 
         render();
