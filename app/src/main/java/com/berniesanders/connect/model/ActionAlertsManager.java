@@ -18,14 +18,14 @@ import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-public class ActionAlertsModel {
+public class ActionAlertsManager {
     private final ConnectApi mConnectApi;
     private final TimeToLive mTimeToLive = new TimeToLive(TimeUnit.MINUTES, 2);
 
     private List<ActionAlert> mActionAlerts = Collections.emptyList();
     private Map<String, ActionAlert> mActionAlertById = Collections.emptyMap();
 
-    public ActionAlertsModel(final ConnectApi connectApi) {
+    public ActionAlertsManager(final ConnectApi connectApi) {
         mConnectApi = connectApi;
     }
 

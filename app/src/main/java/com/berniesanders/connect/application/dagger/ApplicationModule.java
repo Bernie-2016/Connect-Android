@@ -9,7 +9,7 @@ import com.berniesanders.connect.application.ConnectApplication;
 import com.berniesanders.connect.api.ConnectApi;
 import com.berniesanders.connect.application.PrefName;
 import com.berniesanders.connect.gson.GsonFactory;
-import com.berniesanders.connect.model.ActionAlertsModel;
+import com.berniesanders.connect.model.ActionAlertsManager;
 import com.google.gson.Gson;
 
 import javax.inject.Singleton;
@@ -73,7 +73,7 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public ActionAlertsModel provideActionAlertsModel(final ConnectApi connectApi) {
-        return new ActionAlertsModel(connectApi);
+    public ActionAlertsManager provideActionAlertsModel(final ConnectApi connectApi) {
+        return new ActionAlertsManager(connectApi);
     }
 }

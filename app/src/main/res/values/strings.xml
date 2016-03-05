@@ -6,10 +6,10 @@
     <string name="live_action_alerts">%d live action alerts</string>
 
     <!-- menu -->
-    <string name="feedback">Feedback</string>
-    <string name="terms_and_conditions">Terms &amp; Conditions</string>
-    <string name="privacy_policy">Privacy Policy</string>
-    <string name="about">About</string>
+    <string name="act_now">Act Now</string>
+    <string name="news">News</string>
+    <string name="nearby">Nearby</string>
+    <string name="settings">Settings</string>
 
     <!-- dialog -->
     <string name="i_agree">I agree</string>

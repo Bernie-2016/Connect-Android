@@ -1,17 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/feedback"
-        android:title="@string/feedback"
-        />
 
-    <item
-        android:id="@+id/about"
-        android:title="@string/about"
-        />
+    <group
+        android:id="@+id/menu_top"
+        android:checkableBehavior="single"
+        >
 
-    <item
-        android:id="@+id/privacy_policy"
-        android:title="@string/privacy_policy"
-        />
+        <item
+            android:id="@+id/act_now"
+            android:title="@string/act_now"
+            />
+
+        <item
+            android:id="@+id/news"
+            android:title="@string/news"
+            />
+
+        <item
+            android:id="@+id/nearby"
+            android:title="@string/nearby"
+            />
+
+    </group>
+
+    <group
+        android:id="@+id/menu_bottom"
+        android:checkableBehavior="none"
+        >
+
+        <item
+            android:id="@+id/settings"
+            android:title="@string/settings"
+            />
+
+    </group>
+
 </menu>
