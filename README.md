@@ -13,7 +13,12 @@ Design: TODO
 # Getting Started with Development
 
 1. Use the gradle wrapper. When opening the project in Android Studio, be sure to use the gradle wrapper.
-2. TODO...
+2. How ever if not using the Android Studio (your own IDE) install the stand alone SDK tools
+3. You'll want to follow instructions to to export to path
+4. You did it right if you did android in command line and it opens up something. In this tool select the Tools folder
+the most recent SDK and the Extras folder then hit install
+5. When running the gradle wrapper if there is a fail in the build run `tools/android update sdk --no-ui`
+in your sdk folder.
 
 # Contributing
 
