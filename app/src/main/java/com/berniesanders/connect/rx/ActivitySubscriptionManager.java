@@ -30,7 +30,7 @@ public class ActivitySubscriptionManager extends SubscriptionManager<Activity> {
         return new ActivityHookBuilder()
                 .onDestroy(activity -> {
                     Timber.d("unsubscribing from activity: " + activity.getClass().getSimpleName());
-                    unsubscribeAll();
+                    unsubscribe();
                 })
                 .build();
     }

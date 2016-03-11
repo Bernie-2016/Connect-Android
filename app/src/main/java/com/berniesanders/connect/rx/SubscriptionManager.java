@@ -16,11 +16,14 @@
 
 package com.berniesanders.connect.rx;
 
+import com.annimon.stream.Stream;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import rx.Observable;
 import rx.Observer;
 import rx.Subscription;
-import rx.functions.Func1;
-import rx.subscriptions.CompositeSubscription;
 
 import static com.berniesanders.connect.rx.Assertions.assertUiThread;
 import static rx.android.schedulers.AndroidSchedulers.mainThread;
@@ -30,28 +33,29 @@ import static rx.android.schedulers.AndroidSchedulers.mainThread;
  * predicate does not validate.
  */
 public abstract class SubscriptionManager<T> {
-    private final T instance;
-    private final Func1<T, Boolean> predicate = this::validate;
-    private final CompositeSubscription subscriptions = new CompositeSubscription();
+    private final T mContext;
+    private final List<Subscription> mSubscriptions = new ArrayList<>();
 
-    public SubscriptionManager(T instance) {
-        this.instance = instance;
+    public SubscriptionManager(T mContext) {
+        this.mContext = mContext;
     }
 
-    public <O> void subscribe(final Observable<O> source, final Observer<O> observer) {
+    public <O> Subscription subscribe(final Observable<O> source, final Observer<O> observer) {
         assertUiThread();
+
         Subscription subscription = source.observeOn(mainThread())
-                .lift(new OperatorConditionalBinding<>(instance, predicate))
+                .lift(new OperatorConditionalBinding<>(mContext, this::validate))
                 .subscribe(observer);
-        subscriptions.add(subscription);
+
+        mSubscriptions.add(subscription);
+        return subscription;
     }
 
-    public void unsubscribe(Subscription subscription) {
-        subscriptions.remove(subscription);
-    }
+    public void unsubscribe() {
+        assertUiThread();
 
-    public void unsubscribeAll() {
-        subscriptions.unsubscribe();
+        Stream.of(mSubscriptions).forEach(Subscription::unsubscribe);
+        mSubscriptions.clear();
     }
 
     /**

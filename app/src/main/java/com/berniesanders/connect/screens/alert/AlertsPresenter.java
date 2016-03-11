@@ -18,11 +18,11 @@ public class AlertsPresenter implements ScreenComponent {
     private final ActivitySubscriptionManager mSubscriptionManager;
 
     @Inject
-    public AlertsPresenter(final Activity activity, final AlertsModel model, final IAlertsView view, final ActivitySubscriptionManager subscriptionManager) {
+    public AlertsPresenter(final Activity activity, final AlertsModel model, final IAlertsView view) {
         mActivity = activity;
         mModel = model;
         mView = view;
-        mSubscriptionManager = subscriptionManager;
+        mSubscriptionManager = new ActivitySubscriptionManager(activity);
     }
 
     @Override
@@ -38,5 +38,6 @@ public class AlertsPresenter implements ScreenComponent {
 
     @Override
     public void hide() {
+        mSubscriptionManager.unsubscribe();
     }
 }
