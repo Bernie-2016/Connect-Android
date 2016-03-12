@@ -1,9 +1,11 @@
 package com.berniesanders.connect.screens.main;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Window;
 
 import com.berniesanders.connect.R;
@@ -21,9 +23,13 @@ import rx.Observable;
 
 @ActivityScope
 public class MainView {
+    private final Resources mResources;
     private final PrivacyPolicyDialog mPrivacyPolicyDialog;
 
     private DrawerView mDrawerView;
+
+    @Bind(R.id.toolbar)
+    Toolbar mToolbar;
 
     @Bind(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
@@ -32,7 +38,8 @@ public class MainView {
     NavigationView mNavigationView;
 
     @Inject
-    public MainView(final PrivacyPolicyDialog privacyPolicyDialog) {
+    public MainView(final Resources resources, final PrivacyPolicyDialog privacyPolicyDialog) {
+        mResources = resources;
         mPrivacyPolicyDialog = privacyPolicyDialog;
     }
 
@@ -47,6 +54,10 @@ public class MainView {
         activity.setContentView(R.layout.activity_main);
         ButterKnife.bind(this, activity);
 
+        mToolbar.setTitle(R.string.app_name);
+        mToolbar.setTitleTextColor(mResources.getColor(android.R.color.white));
+        mToolbar.setNavigationIcon(R.drawable.ic_action_menu);
+        mToolbar.setNavigationOnClickListener(view -> mDrawerView.toggle());
         mNavigationView.inflateHeaderView(R.layout.drawer_header);
         mNavigationView.inflateMenu(R.menu.menu_main);
         mDrawerView = new DrawerView(mDrawerLayout, mNavigationView);

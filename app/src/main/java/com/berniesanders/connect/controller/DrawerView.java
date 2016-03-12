@@ -21,6 +21,14 @@ public class DrawerView {
         mDrawerLayout.closeDrawer(GravityCompat.START);
     }
 
+    public void toggle() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            close();
+        } else {
+            open();
+        }
+    }
+
     public void setMenuItemListener(final MenuItemListener listener) {
         mNavigationView.setNavigationItemSelectedListener(menuItem -> listener.onSelected(menuItem.getItemId()));
     }

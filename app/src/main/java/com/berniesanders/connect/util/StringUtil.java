@@ -1,7 +1,11 @@
 package com.berniesanders.connect.util;
 
 import android.net.Uri;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Patterns;
+
+import com.commonsware.cwac.anddown.AndDown;
 
 public class StringUtil {
     public static String nullAsEmpty(final String string) {
@@ -23,5 +27,9 @@ public class StringUtil {
 
     public static String removeScript(final String string) {
         return string.replaceAll("<script>(.|\\r|\\n)*</script>", "").trim();
+    }
+
+    public static Spanned markdownStringToSpanned(final String string) {
+        return Html.fromHtml(new AndDown().markdownToHtml(string));
     }
 }

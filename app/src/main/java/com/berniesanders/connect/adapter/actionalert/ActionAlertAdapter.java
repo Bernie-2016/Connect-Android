@@ -1,12 +1,10 @@
 package com.berniesanders.connect.adapter.actionalert;
 
-import android.support.annotation.NonNull;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.RecyclerView.ViewHolder;
+import android.support.v4.view.PagerAdapter;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.berniesanders.connect.data.ActionAlert;
-import com.berniesanders.connect.recycler.DecorableAdapter;
 import com.berniesanders.connect.view.ActionAlertView;
 
 import java.util.Collections;
@@ -15,14 +13,8 @@ import java.util.List;
 import rx.Observable;
 import rx.subjects.PublishSubject;
 
-/**
- * A recycler view adapter for Action Alerts
- *
- * Created by John on 2/21/16.
- */
-public class ActionAlertAdapter extends DecorableAdapter {
+public class ActionAlertAdapter extends PagerAdapter {
     private final PublishSubject<ActionAlert> mSelectedSubject = PublishSubject.create();
-    private final PublishSubject<Void> mChangedSubject = PublishSubject.create();
 
     private List<ActionAlert> mAlerts = Collections.emptyList();
 
@@ -30,37 +22,28 @@ public class ActionAlertAdapter extends DecorableAdapter {
     }
 
     @Override
-    public int getItemCount() {
+    public Object instantiateItem(final ViewGroup container, final int position) {
+        final ActionAlertView view = new ActionAlertView(container.getContext());
+
+        view.setActionAlert(mAlerts.get(position));
+        view.onSelected().subscribe(mSelectedSubject);
+        container.addView(view);
+        return view;
+    }
+
+    @Override
+    public void destroyItem(final ViewGroup container, final int position, final Object object) {
+        container.removeView((View) object);
+    }
+
+    @Override
+    public int getCount() {
         return mAlerts.size();
     }
 
     @Override
-    public long getItemId(int position) {
-        return RecyclerView.NO_ID;
-    }
-
-    @Override
-    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        return new ActionAlertHolder(new ActionAlertView(viewGroup.getContext()));
-    }
-
-    @Override
-    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-        final ActionAlert actionAlert = mAlerts.get(position);
-        final ActionAlertHolder alertHolder = (ActionAlertHolder) viewHolder;
-
-        alertHolder.setActionAlert(actionAlert);
-        alertHolder.setOnSelected(mSelectedSubject::onNext);
-    }
-
-    @Override
-    public int getMaxViewType() {
-        return 0;
-    }
-
-    @Override
-    public Observable<Void> getDataChanges() {
-        return mChangedSubject;
+    public boolean isViewFromObject(final View view, final Object object) {
+        return view == object;
     }
 
     public Observable<ActionAlert> getSelectedItems() {
@@ -68,11 +51,9 @@ public class ActionAlertAdapter extends DecorableAdapter {
     }
 
     public void setActionAlerts(final List<ActionAlert> actionAlerts) {
-        if (!actionAlerts.equals(mAlerts)) {
+        if (!mAlerts.equals(actionAlerts)) {
             mAlerts = actionAlerts;
+            notifyDataSetChanged();
         }
-
-        notifyDataSetChanged();
-        mChangedSubject.onNext(null);
     }
 }

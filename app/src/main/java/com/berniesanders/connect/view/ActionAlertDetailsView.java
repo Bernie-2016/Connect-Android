@@ -1,7 +1,6 @@
 package com.berniesanders.connect.view;
 
 import android.content.Context;
-import android.text.Html;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -10,7 +9,7 @@ import android.widget.TextView;
 
 import com.berniesanders.connect.R;
 import com.berniesanders.connect.data.ActionAlert;
-import com.commonsware.cwac.anddown.AndDown;
+import com.berniesanders.connect.util.StringUtil;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,7 +39,7 @@ public class ActionAlertDetailsView extends FrameLayout {
 
     public ActionAlertDetailsView setActionAlert(final ActionAlert actionAlert) {
         mTitle.setText(actionAlert.title());
-        mBody.setText(Html.fromHtml(new AndDown().markdownToHtml(actionAlert.body())));
+        mBody.setText(StringUtil.markdownStringToSpanned(actionAlert.body()));
         return this;
     }
 }

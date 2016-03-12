@@ -7,41 +7,34 @@
     android:background="@drawable/tile_fabric_blue"
     >
 
-    <!--
-    TODO: add an app bar
-     -->
-    <FrameLayout
-        android:id="@+id/screen_container"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        />
-    <!--<android.support.design.widget.CoordinatorLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--&gt;-->
+        android:orientation="vertical"
+        >
 
-        <!--<ImageView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="220dp"-->
-            <!--android:scaleType="centerCrop"-->
-            <!--android:src="@drawable/not_me_us"-->
-            <!--/>-->
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?android:attr/actionBarSize"
+            android:elevation="4dp"
+            android:background="@color/colorPrimary"
+            />
 
-        <!--<android.support.v7.widget.RecyclerView-->
-            <!--android:id="@+id/recycler_view"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:clipToPadding="false"-->
-            <!--/>-->
+        <FrameLayout
+            android:id="@+id/screen_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
-    <!--</android.support.design.widget.CoordinatorLayout>-->
+    </LinearLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="left"
-        android:background="@color/bernie_light_blue"
+        android:background="@drawable/tile_fabric_blue"
         />
 
 </android.support.v4.widget.DrawerLayout>

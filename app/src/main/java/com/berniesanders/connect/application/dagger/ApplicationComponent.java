@@ -1,5 +1,7 @@
 package com.berniesanders.connect.application.dagger;
 
+import android.content.res.Resources;
+
 import com.berniesanders.connect.application.ApplicationPreferences;
 import com.berniesanders.connect.model.ActionAlertsManager;
 import com.berniesanders.connect.util.DimensionUtil;
@@ -13,5 +15,6 @@ import dagger.Component;
 public interface ApplicationComponent {
     ApplicationPreferences getApplicationPreferences();
     ActionAlertsManager getActionAlertsModel();
+    Resources getResources();
     DimensionUtil getDimensionUtil();
 }
