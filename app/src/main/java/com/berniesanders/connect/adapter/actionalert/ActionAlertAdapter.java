@@ -42,6 +42,11 @@ public class ActionAlertAdapter extends PagerAdapter {
     }
 
     @Override
+    public int getItemPosition(final Object object) {
+        return POSITION_NONE;
+    }
+
+    @Override
     public boolean isViewFromObject(final View view, final Object object) {
         return view == object;
     }

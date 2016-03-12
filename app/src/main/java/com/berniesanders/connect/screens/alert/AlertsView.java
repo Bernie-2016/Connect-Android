@@ -6,6 +6,7 @@ import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
+import com.annimon.stream.Optional;
 import com.berniesanders.connect.R;
 import com.berniesanders.connect.adapter.actionalert.ActionAlertAdapter;
 import com.berniesanders.connect.dagger.AlertsScope;
@@ -93,22 +94,34 @@ public class AlertsView implements ScreenView<View>, IAlertsView {
         mActionAlerts = actionAlerts;
         mAdapter.setActionAlerts(actionAlerts);
 
-        if (actionAlerts.isEmpty()) {
+        final Optional<ActionAlert> currentAlert = getCurrentActionAlert();
+
+        if (currentAlert.isPresent()) {
+            drawAlert(currentAlert.get());
+        } else {
             mTitle.setText("");
             mDescription.setText("");
-        } else {
-            drawAlert(mActionAlerts.get(mViewPager.getCurrentItem()));
         }
     }
 
     @Override
     public Observable<ActionAlert> getSelectedActionAlerts() {
         return mAdapter.getSelectedItems()
-                .filter(actionAlert -> actionAlert.equals(mActionAlerts.get(mViewPager.getCurrentItem())));
+                .filter(actionAlert -> getCurrentActionAlert().map(actionAlert::equals).orElse(false));
     }
 
     private void drawAlert(final ActionAlert alert) {
         mTitle.setText(alert.title());
         mDescription.setText(StringUtil.markdownStringToSpanned(alert.body()));
+    }
+
+    private Optional<ActionAlert> getCurrentActionAlert() {
+        final int index = mViewPager.getCurrentItem();
+
+        if (index < mActionAlerts.size()) {
+            return Optional.of(mActionAlerts.get(index));
+        } else {
+            return Optional.empty();
+        }
     }
 }
