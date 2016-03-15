@@ -33,6 +33,7 @@ public class AlertsView implements ScreenView<View>, IAlertsView {
     private View mView;
     private ActionAlertAdapter mAdapter;
     private List<ActionAlert> mActionAlerts = Collections.emptyList();
+    private int mCurrentPosition;
 
     @Bind(R.id.view_pager)
     ViewPager mViewPager;
@@ -69,11 +70,14 @@ public class AlertsView implements ScreenView<View>, IAlertsView {
 
             @Override
             public void onPageSelected(final int position) {
-                drawAlert(mActionAlerts.get(position));
+                mCurrentPosition = position;
             }
 
             @Override
             public void onPageScrollStateChanged(final int state) {
+                if (state == ViewPager.SCROLL_STATE_IDLE) {
+                    drawAlert(mActionAlerts.get(mCurrentPosition));
+                }
             }
         });
 
