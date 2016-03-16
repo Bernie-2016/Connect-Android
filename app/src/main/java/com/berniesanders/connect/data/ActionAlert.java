@@ -6,12 +6,16 @@ import android.support.annotation.Nullable;
 
 import com.annimon.stream.Optional;
 
+import java.io.Serializable;
+
 import auto.parcel.AutoParcel;
 
+import static com.berniesanders.connect.util.StringUtil.toOptionalUri;
+
 @AutoParcel
-public abstract class ActionAlert implements Parcelable {
-    @Nullable protected abstract Uri targetUrl();
-    @Nullable protected abstract Uri twitterUrl();
+public abstract class ActionAlert implements Parcelable, Serializable {
+    @Nullable protected abstract String targetUrl();
+    @Nullable protected abstract String twitterUrl();
     @Nullable protected abstract Long tweetId();
 
     public abstract String id();
@@ -25,11 +29,11 @@ public abstract class ActionAlert implements Parcelable {
     }
 
     public Optional<Uri> getTargetUrl() {
-        return Optional.ofNullable(targetUrl());
+        return toOptionalUri(targetUrl());
     }
 
     public Optional<Uri> getTwitterUrl() {
-        return Optional.ofNullable(twitterUrl());
+        return toOptionalUri(twitterUrl());
     }
 
     public Optional<Long> getTweetId() {
@@ -43,8 +47,8 @@ public abstract class ActionAlert implements Parcelable {
         public abstract Builder body(final String body);
         public abstract Builder shortBody(final String shortBody);
         public abstract Builder date(final String date);
-        public abstract Builder targetUrl(final Uri targetUrl);
-        public abstract Builder twitterUrl(final Uri twitterUrl);
+        public abstract Builder targetUrl(final String targetUrl);
+        public abstract Builder twitterUrl(final String twitterUrl);
         public abstract Builder tweetId(final Long tweetId);
 
         public abstract ActionAlert build();

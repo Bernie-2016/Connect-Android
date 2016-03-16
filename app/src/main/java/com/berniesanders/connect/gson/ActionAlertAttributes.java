@@ -5,7 +5,6 @@ import com.berniesanders.connect.data.ActionAlert;
 import static com.berniesanders.connect.util.StringUtil.nullAsEmpty;
 import static com.berniesanders.connect.util.StringUtil.removeScript;
 import static com.berniesanders.connect.util.StringUtil.toLong;
-import static com.berniesanders.connect.util.StringUtil.toUri;
 
 public class ActionAlertAttributes implements JsonApiAttributes<ActionAlert> {
     public static final String TYPE = "action_alerts";
@@ -25,8 +24,8 @@ public class ActionAlertAttributes implements JsonApiAttributes<ActionAlert> {
                 .body(removeScript(nullAsEmpty(body)))
                 .shortBody(nullAsEmpty(short_body))
                 .date(nullAsEmpty(date))
-                .targetUrl(toUri(target_url))
-                .twitterUrl(toUri(twitter_url))
+                .targetUrl(target_url)
+                .twitterUrl(twitter_url)
                 .tweetId(toLong(tweet_id))
                 .build();
     }

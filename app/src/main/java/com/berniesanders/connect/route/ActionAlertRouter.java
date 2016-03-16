@@ -3,8 +3,11 @@ package com.berniesanders.connect.route;
 import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Parcelable;
 
 import com.annimon.stream.Optional;
+import com.annimon.stream.Stream;
+import com.annimon.stream.function.Function;
 import com.berniesanders.connect.data.ActionAlert;
 import com.berniesanders.connect.screens.detail.DetailActivity;
 import com.berniesanders.connect.screens.detail.DetailModel;
@@ -19,48 +22,44 @@ public class ActionAlertRouter {
     }
 
     public Action1<Activity> selectAction() {
-        final Optional<Long> tweetId = mActionAlert.getTweetId();
-        final Optional<Uri> twitterUrl = mActionAlert.getTwitterUrl();
-
-        if (tweetId.isPresent()) {
-            return activity -> {
-                boolean success = false;
-
-                try {
-                    activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://status?status_id=" + tweetId.get())));
-                    success = true;
-                } catch (final Exception exception) {
-                }
-
-                if (success) return;
-
-                try {
-                    if (twitterUrl.isPresent()) {
-                        showTwitterUrl(activity, twitterUrl.get());
-                        success = true;
-                    }
-                } catch (final Exception exception) {
-                }
-
-                if (success) return;
-
-                showDetails(activity);
-            };
-        } else if (twitterUrl.isPresent()) {
-            return activity -> showTwitterUrl(activity, twitterUrl.get());
-        } else {
-            return this::showDetails;
-        }
+        return handleFirstSuccess(
+                tryHandle(tweetIdHandler(mActionAlert.getTweetId())),
+                tryHandle(urlHandler(mActionAlert.getTwitterUrl())),
+                tryHandle(urlHandler(mActionAlert.getTargetUrl())),
+                showDetails(mActionAlert));
     }
 
-    private void showTwitterUrl(final Activity activity, final Uri twitterUrl) {
-        activity.startActivity(new Intent(Intent.ACTION_VIEW, twitterUrl));
+    private static Action1<Activity> handleFirstSuccess(final Function<Activity, Boolean>... predicates) {
+        return activity -> Stream.of(predicates).anyMatch(predicate -> predicate.apply(activity));
     }
 
-    private void showDetails(final Activity activity) {
-        final Intent intent = new Intent(activity, DetailActivity.class);
+    private static Action1<Activity> tweetIdHandler(final Optional<Long> tweetId) {
+        return activity -> activity.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("twitter://status?status_id=" + tweetId.get())));
+    }
 
-        intent.putExtra(DetailModel.KEY_ACTION_ALERT, mActionAlert);
-        activity.startActivity(intent);
+    private static Action1<Activity> urlHandler(final Optional<Uri> url) {
+        return activity -> activity.startActivity(new Intent(Intent.ACTION_VIEW, url.get()));
+    }
+
+    private static Function<Activity, Boolean> tryHandle(final Action1<Activity> action) {
+        return activity -> {
+            try {
+                action.call(activity);
+                return true;
+            } catch (final Exception exception) {
+            }
+
+            return false;
+        };
+    }
+
+    private static Function<Activity, Boolean> showDetails(final ActionAlert actionAlert) {
+        return activity -> {
+            final Intent intent = new Intent(activity, DetailActivity.class);
+
+            intent.putExtra(DetailModel.KEY_ACTION_ALERT, (Parcelable) actionAlert);
+            activity.startActivity(intent);
+            return true;
+        };
     }
 }

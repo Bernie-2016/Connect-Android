@@ -5,6 +5,7 @@ import android.text.Html;
 import android.text.Spanned;
 import android.util.Patterns;
 
+import com.annimon.stream.Optional;
 import com.commonsware.cwac.anddown.AndDown;
 
 public class StringUtil {
@@ -18,11 +19,10 @@ public class StringUtil {
                 .orElse(null);
     }
 
-    public static Uri toUri(final String string) {
+    public static Optional<Uri> toOptionalUri(final String string) {
         return OptionalUtil.notEmpty(string)
                 .filter(s -> Patterns.WEB_URL.matcher(s).matches())
-                .map(Uri::parse)
-                .orElse(null);
+                .map(Uri::parse);
     }
 
     public static String removeScript(final String string) {
