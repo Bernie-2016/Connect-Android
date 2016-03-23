@@ -11,7 +11,7 @@ public class ActionAlertAttributes implements JsonApiAttributes<ActionAlert> {
 
     public String title;
     public String body;
-    public String short_body;
+    public String body_html;
     public String date;
     public String target_url;
     public String twitter_url;
@@ -22,7 +22,7 @@ public class ActionAlertAttributes implements JsonApiAttributes<ActionAlert> {
                 .id(nullAsEmpty(id))
                 .title(nullAsEmpty(title))
                 .body(removeScript(nullAsEmpty(body)))
-                .shortBody(nullAsEmpty(short_body))
+                .bodyHtml(nullAsEmpty(body_html))
                 .date(nullAsEmpty(date))
                 .targetUrl(target_url)
                 .twitterUrl(twitter_url)

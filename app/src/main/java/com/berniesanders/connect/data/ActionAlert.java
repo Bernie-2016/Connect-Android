@@ -21,7 +21,7 @@ public abstract class ActionAlert implements Parcelable, Serializable {
     public abstract String id();
     public abstract String title();
     public abstract String body();
-    public abstract String shortBody();
+    public abstract String bodyHtml();
     public abstract String date();
 
     public static Builder builder() {
@@ -45,7 +45,7 @@ public abstract class ActionAlert implements Parcelable, Serializable {
         public abstract Builder id(final String id);
         public abstract Builder title(final String title);
         public abstract Builder body(final String body);
-        public abstract Builder shortBody(final String shortBody);
+        public abstract Builder bodyHtml(final String bodyHtml);
         public abstract Builder date(final String date);
         public abstract Builder targetUrl(final String targetUrl);
         public abstract Builder twitterUrl(final String twitterUrl);

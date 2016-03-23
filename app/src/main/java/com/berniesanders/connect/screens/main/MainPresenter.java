@@ -40,6 +40,7 @@ public class MainPresenter {
         return Arrays.asList(
                 mSubscriptionManager.getActivityHook(),
                 mView.getActivityHook(),
+                mModel.getActivityHook(),
                 mViewScreenManager.getActivityHook(),
                 new ActivityHookBuilder()
                         .onCreate(this::onCreate)

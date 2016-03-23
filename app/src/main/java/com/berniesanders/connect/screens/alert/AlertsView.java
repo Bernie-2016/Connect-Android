@@ -41,9 +41,6 @@ public class AlertsView implements ScreenView<View>, IAlertsView {
     @Bind(R.id.title)
     TextView mTitle;
 
-    @Bind(R.id.description)
-    TextView mDescription;
-
     @Inject
     public AlertsView(final ViewScreenFactory viewFactory, final DimensionUtil dimensionUtil) {
         mViewFactory = viewFactory;
@@ -81,7 +78,6 @@ public class AlertsView implements ScreenView<View>, IAlertsView {
             }
         });
 
-        mDescription.setMovementMethod(LinkMovementMethod.getInstance());
         return mView;
     }
 
@@ -104,7 +100,6 @@ public class AlertsView implements ScreenView<View>, IAlertsView {
             drawAlert(currentAlert.get());
         } else {
             mTitle.setText("");
-            mDescription.setText("");
         }
     }
 
@@ -116,7 +111,6 @@ public class AlertsView implements ScreenView<View>, IAlertsView {
 
     private void drawAlert(final ActionAlert alert) {
         mTitle.setText(alert.title());
-        mDescription.setText(StringUtil.markdownStringToSpanned(alert.body()));
     }
 
     private Optional<ActionAlert> getCurrentActionAlert() {

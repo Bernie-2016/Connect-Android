@@ -34,7 +34,7 @@ public class PrivacyPolicyDialog {
 
     public void show(final boolean agreed) {
         final Dialog dialog = showDialog(agreed, mPrivacySubject);
-        final WebView webView = (WebView) dialog.findViewById(R.id.webview);
+        final WebView webView = (WebView) dialog.findViewById(R.id.web_view);
         final View progressBar = dialog.findViewById(R.id.progress);
 
         webView.getSettings().setJavaScriptEnabled(true);

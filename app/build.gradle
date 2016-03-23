@@ -56,4 +56,5 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton.timber:timber:3.0.2'
     compile 'com.commonsware.cwac:anddown:0.2.4'
+    compile 'org.nanohttpd:nanohttpd:2.3.0'
 }
