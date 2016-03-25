@@ -11,14 +11,12 @@ import javax.inject.Inject;
 
 @AlertsScope
 public class AlertsPresenter implements ScreenComponent {
-    private final Activity mActivity;
     private final AlertsModel mModel;
     private final IAlertsView mView;
     private final ActivitySubscriptionManager mSubscriptionManager;
 
     @Inject
     public AlertsPresenter(final Activity activity, final AlertsModel model, final IAlertsView view) {
-        mActivity = activity;
         mModel = model;
         mView = view;
         mSubscriptionManager = new ActivitySubscriptionManager(activity);
