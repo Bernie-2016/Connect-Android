@@ -5,11 +5,7 @@ import com.berniesanders.connect.data.ActionAlert;
 
 import java.util.List;
 
-import rx.Observable;
-
 @AlertsScope
 public interface IAlertsView {
     void setActionAlerts(List<ActionAlert> actionAlerts);
-
-    Observable<ActionAlert> getSelectedActionAlerts();
 }

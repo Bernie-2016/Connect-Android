@@ -10,12 +10,7 @@ import com.berniesanders.connect.view.ActionAlertView;
 import java.util.Collections;
 import java.util.List;
 
-import rx.Observable;
-import rx.subjects.PublishSubject;
-
 public class ActionAlertAdapter extends PagerAdapter {
-    private final PublishSubject<ActionAlert> mSelectedSubject = PublishSubject.create();
-
     private List<ActionAlert> mAlerts = Collections.emptyList();
 
     public ActionAlertAdapter() {
@@ -26,7 +21,6 @@ public class ActionAlertAdapter extends PagerAdapter {
         final ActionAlertView view = new ActionAlertView(container.getContext());
 
         view.setActionAlert(mAlerts.get(position));
-        view.onSelected().subscribe(mSelectedSubject);
         container.addView(view);
         return view;
     }
@@ -49,10 +43,6 @@ public class ActionAlertAdapter extends PagerAdapter {
     @Override
     public boolean isViewFromObject(final View view, final Object object) {
         return view == object;
-    }
-
-    public Observable<ActionAlert> getSelectedItems() {
-        return mSelectedSubject;
     }
 
     public void setActionAlerts(final List<ActionAlert> actionAlerts) {

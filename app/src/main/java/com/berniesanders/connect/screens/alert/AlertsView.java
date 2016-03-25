@@ -2,7 +2,6 @@ package com.berniesanders.connect.screens.alert;
 
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.text.method.LinkMovementMethod;
 import android.view.View;
 import android.widget.TextView;
 
@@ -14,7 +13,6 @@ import com.berniesanders.connect.data.ActionAlert;
 import com.berniesanders.connect.screen.ScreenView;
 import com.berniesanders.connect.screen.ViewScreenFactory;
 import com.berniesanders.connect.util.DimensionUtil;
-import com.berniesanders.connect.util.StringUtil;
 
 import java.util.Collections;
 import java.util.List;
@@ -23,7 +21,6 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import rx.Observable;
 
 @AlertsScope
 public class AlertsView implements ScreenView<View>, IAlertsView {
@@ -101,12 +98,6 @@ public class AlertsView implements ScreenView<View>, IAlertsView {
         } else {
             mTitle.setText("");
         }
-    }
-
-    @Override
-    public Observable<ActionAlert> getSelectedActionAlerts() {
-        return mAdapter.getSelectedItems()
-                .filter(actionAlert -> getCurrentActionAlert().map(actionAlert::equals).orElse(false));
     }
 
     private void drawAlert(final ActionAlert alert) {

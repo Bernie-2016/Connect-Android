@@ -3,7 +3,6 @@ package com.berniesanders.connect.screens.alert;
 import android.app.Activity;
 
 import com.berniesanders.connect.dagger.AlertsScope;
-import com.berniesanders.connect.route.ActionAlertRouter;
 import com.berniesanders.connect.rx.ActivitySubscriptionManager;
 import com.berniesanders.connect.rx.RxError;
 import com.berniesanders.connect.screen.ScreenComponent;
@@ -27,10 +26,6 @@ public class AlertsPresenter implements ScreenComponent {
 
     @Override
     public void show() {
-        mSubscriptionManager.subscribe(
-                mView.getSelectedActionAlerts().onErrorResumeNext(RxError.logNever("selection action alert")),
-                actionAlert -> new ActionAlertRouter(actionAlert).selectAction().call(mActivity));
-
         mSubscriptionManager.subscribe(
                 mModel.getActionAlerts().onErrorResumeNext(RxError.logNever("action alerts")),
                 mView::setActionAlerts);
