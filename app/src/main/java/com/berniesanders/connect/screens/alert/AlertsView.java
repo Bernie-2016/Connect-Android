@@ -3,6 +3,7 @@ package com.berniesanders.connect.screens.alert;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.annimon.stream.Optional;
@@ -32,11 +33,17 @@ public class AlertsView implements ScreenView<View>, IAlertsView {
     private List<ActionAlert> mActionAlerts = Collections.emptyList();
     private int mCurrentPosition;
 
-    @Bind(R.id.view_pager)
-    ViewPager mViewPager;
+    @Bind(R.id.progress)
+    ProgressBar mProgressBar;
+
+    @Bind(R.id.content)
+    View mContent;
 
     @Bind(R.id.title)
     TextView mTitle;
+
+    @Bind(R.id.view_pager)
+    ViewPager mViewPager;
 
     @Inject
     public AlertsView(final ViewScreenFactory viewFactory, final DimensionUtil dimensionUtil) {
@@ -88,6 +95,9 @@ public class AlertsView implements ScreenView<View>, IAlertsView {
 
     @Override
     public void setActionAlerts(final List<ActionAlert> actionAlerts) {
+        mProgressBar.setVisibility(View.GONE);
+        mContent.setVisibility(View.VISIBLE);
+
         mActionAlerts = actionAlerts;
         mAdapter.setActionAlerts(actionAlerts);
 

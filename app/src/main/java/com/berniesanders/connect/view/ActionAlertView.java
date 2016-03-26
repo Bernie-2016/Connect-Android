@@ -3,8 +3,11 @@ package com.berniesanders.connect.view;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 import android.widget.FrameLayout;
+import android.widget.ProgressBar;
 
 import com.berniesanders.connect.R;
 import com.berniesanders.connect.data.ActionAlert;
@@ -15,6 +18,9 @@ import butterknife.ButterKnife;
 
 public class ActionAlertView extends FrameLayout {
     private ActionAlert mActionAlert;
+
+    @Bind(R.id.progress)
+    ProgressBar mProgressBar;
 
     @Bind(R.id.web_view)
     WebView mWebView;
@@ -36,10 +42,21 @@ public class ActionAlertView extends FrameLayout {
 
         mWebView.setBackgroundColor(getResources().getColor(android.R.color.transparent));
         mWebView.getSettings().setJavaScriptEnabled(true);
+
+        mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onPageFinished(final WebView view, final String url) {
+                mProgressBar.setVisibility(View.GONE);
+                mWebView.setVisibility(View.VISIBLE);
+            }
+        });
     }
 
     public void setActionAlert(final ActionAlert actionAlert) {
         if (!actionAlert.equals(mActionAlert)) {
+            mProgressBar.setVisibility(View.VISIBLE);
+            mWebView.setVisibility(View.GONE);
+
             mActionAlert = actionAlert;
             mWebView.loadUrl(AlertServer.URL + mActionAlert.id());
         }
