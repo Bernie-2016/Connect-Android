@@ -60,6 +60,7 @@ public class MainView {
         mToolbar.setNavigationOnClickListener(view -> mDrawerView.toggle());
         mNavigationView.inflateHeaderView(R.layout.drawer_header);
         mNavigationView.inflateMenu(R.menu.menu_main);
+        mNavigationView.getMenu().getItem(0).setChecked(true);
         mDrawerView = new DrawerView(mDrawerLayout, mNavigationView);
     }
 

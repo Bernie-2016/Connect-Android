@@ -7,9 +7,10 @@
 
     <!-- menu -->
     <string name="act_now">Act Now</string>
-    <string name="news">News</string>
-    <string name="nearby">Nearby</string>
-    <string name="settings">Settings</string>
+    <string name="news">News (coming soon)</string>
+    <string name="nearby">Nearby (coming soon)</string>
+    <string name="privacy_policy">Privacy Policy</string>
+    <string name="settings">Settings (coming soon)</string>
 
     <!-- dialog -->
     <string name="i_agree">I agree</string>

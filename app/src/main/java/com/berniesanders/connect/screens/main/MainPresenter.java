@@ -61,8 +61,10 @@ public class MainPresenter {
                     break;
                 case R.id.nearby:
                     break;
-                case R.id.settings:
+                case R.id.privacy_policy:
                     mView.showPrivacy(true);
+                    break;
+                case R.id.settings:
                     break;
             }
 
