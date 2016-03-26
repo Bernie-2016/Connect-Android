@@ -26,7 +26,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
-            android:lines="3"
+            android:lines="@integer/action_alert_title_lines"
             android:textSize="28sp"
             android:textColor="@android:color/white"
             />

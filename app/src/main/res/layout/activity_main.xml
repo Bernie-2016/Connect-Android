@@ -6,10 +6,9 @@
     android:layout_height="match_parent"
     >
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
         >
 
         <android.support.v7.widget.Toolbar
@@ -20,13 +19,22 @@
             android:background="@color/colorPrimary"
             />
 
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
+            android:src="@drawable/main_background"
+            android:scaleType="centerCrop"
+            />
+
         <FrameLayout
             android:id="@+id/screen_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_below="@id/toolbar"
             />
 
-    </LinearLayout>
+    </RelativeLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"
