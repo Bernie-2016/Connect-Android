@@ -1,6 +1,8 @@
 package com.berniesanders.connect.view;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,6 +50,12 @@ public class ActionAlertView extends FrameLayout {
             public void onPageFinished(final WebView view, final String url) {
                 mProgressBar.setVisibility(View.GONE);
                 mWebView.setVisibility(View.VISIBLE);
+            }
+
+            @Override
+            public boolean shouldOverrideUrlLoading(final WebView view, final String url) {
+                getContext().startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                return true;
             }
         });
     }
