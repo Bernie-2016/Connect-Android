@@ -1,6 +1,7 @@
 package com.berniesanders.connect.adapter.actionalert;
 
 import android.support.v4.view.PagerAdapter;
+import android.util.LruCache;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -11,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ActionAlertAdapter extends PagerAdapter {
+    private LruCache<ActionAlert, ActionAlertView> mViewCache = new LruCache<>(30);
     private List<ActionAlert> mAlerts = Collections.emptyList();
 
     public ActionAlertAdapter() {
@@ -18,9 +20,16 @@ public class ActionAlertAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {
-        final ActionAlertView view = new ActionAlertView(container.getContext());
+        final ActionAlert actionAlert = mAlerts.get(position);
 
-        view.setActionAlert(mAlerts.get(position));
+        ActionAlertView view = mViewCache.get(actionAlert);
+
+        if (view == null) {
+            view = new ActionAlertView(container.getContext());
+            view.setActionAlert(actionAlert);
+            mViewCache.put(actionAlert, view);
+        }
+
         container.addView(view);
         return view;
     }
@@ -48,7 +57,12 @@ public class ActionAlertAdapter extends PagerAdapter {
     public void setActionAlerts(final List<ActionAlert> actionAlerts) {
         if (!mAlerts.equals(actionAlerts)) {
             mAlerts = actionAlerts;
+            invalidateCache();
             notifyDataSetChanged();
         }
+    }
+
+    public void invalidateCache() {
+        mViewCache.evictAll();
     }
 }

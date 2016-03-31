@@ -1,6 +1,7 @@
 package com.berniesanders.connect.dagger;
 
 import android.app.Activity;
+import android.support.v7.app.AppCompatActivity;
 
 import com.berniesanders.connect.model.ActionAlertsManager;
 import com.berniesanders.connect.rx.ActivitySubscriptionManager;
@@ -26,6 +27,7 @@ public interface ActivityComponent {
 
     // activity
     Activity getActivity();
+    AppCompatActivity getAppCompatActivity();
     ViewScreenFactory getViewScreenFactory();
     ActivitySubscriptionManager getActivitySubscriptionManager();
     @Named(Name.CONTAINER) int getContainerId();

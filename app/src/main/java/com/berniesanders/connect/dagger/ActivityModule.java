@@ -2,6 +2,7 @@ package com.berniesanders.connect.dagger;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
 
 import com.berniesanders.connect.R;
 import com.berniesanders.connect.activities.BaseActivity;
@@ -30,7 +31,12 @@ public class ActivityModule {
     }
 
     @Provides
-    public BaseActivity provideAppCompatActivity() {
+    public AppCompatActivity provideAppCompatActivity() {
+        return mActivity;
+    }
+
+    @Provides
+    public BaseActivity provideBaseActivity() {
         return mActivity;
     }
 

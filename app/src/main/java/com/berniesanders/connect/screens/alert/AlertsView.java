@@ -2,6 +2,7 @@ package com.berniesanders.connect.screens.alert;
 
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -11,6 +12,7 @@ import com.berniesanders.connect.R;
 import com.berniesanders.connect.adapter.actionalert.ActionAlertAdapter;
 import com.berniesanders.connect.dagger.AlertsScope;
 import com.berniesanders.connect.data.ActionAlert;
+import com.berniesanders.connect.fragment.ReferenceFragmentManager;
 import com.berniesanders.connect.screen.ScreenView;
 import com.berniesanders.connect.screen.ViewScreenFactory;
 import com.berniesanders.connect.util.DimensionUtil;
@@ -25,8 +27,11 @@ import butterknife.ButterKnife;
 
 @AlertsScope
 public class AlertsView implements ScreenView<View>, IAlertsView {
+    private static final String ADAPTER_TAG = "AlertsView_ADAPTER";
+
     private final ViewScreenFactory mViewFactory;
     private final DimensionUtil mDimensionUtil;
+    private final ReferenceFragmentManager<ActionAlertAdapter> mReferenceFragment;
 
     private View mView;
     private ActionAlertAdapter mAdapter;
@@ -46,9 +51,10 @@ public class AlertsView implements ScreenView<View>, IAlertsView {
     ViewPager mViewPager;
 
     @Inject
-    public AlertsView(final ViewScreenFactory viewFactory, final DimensionUtil dimensionUtil) {
+    public AlertsView(final AppCompatActivity activity, final ViewScreenFactory viewFactory, final DimensionUtil dimensionUtil) {
         mViewFactory = viewFactory;
         mDimensionUtil = dimensionUtil;
+        mReferenceFragment = new ReferenceFragmentManager<>(activity);
     }
 
     @Override
@@ -59,7 +65,9 @@ public class AlertsView implements ScreenView<View>, IAlertsView {
 
         ButterKnife.bind(this, mView);
 
-        mAdapter = new ActionAlertAdapter();
+        mAdapter = mReferenceFragment.get(ADAPTER_TAG).orElse(new ActionAlertAdapter());
+        mAdapter.invalidateCache();
+        mReferenceFragment.clear(ADAPTER_TAG);
         mViewPager.setAdapter(mAdapter);
         mViewPager.setClipToPadding(false);
         mViewPager.setPadding(horizontalPadding, 0, horizontalPadding, 0);
@@ -91,6 +99,7 @@ public class AlertsView implements ScreenView<View>, IAlertsView {
 
     @Override
     public void hide() {
+        mReferenceFragment.retain(mAdapter, ADAPTER_TAG);
     }
 
     @Override
