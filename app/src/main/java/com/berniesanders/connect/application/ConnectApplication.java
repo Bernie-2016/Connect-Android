@@ -6,11 +6,17 @@ import com.berniesanders.connect.BuildConfig;
 import com.berniesanders.connect.application.dagger.ApplicationComponent;
 import com.berniesanders.connect.application.dagger.ApplicationModule;
 import com.berniesanders.connect.application.dagger.DaggerApplicationComponent;
+import com.berniesanders.connect.parse.ParseManager;
+
+import javax.inject.Inject;
 
 import timber.log.Timber;
 
 public class ConnectApplication extends Application {
-    private ApplicationComponent component;
+    private ApplicationComponent mComponent;
+
+    @Inject
+    ParseManager mParseManager;
 
     @Override
     public void onCreate() {
@@ -20,12 +26,16 @@ public class ConnectApplication extends Application {
             Timber.plant(new Timber.DebugTree());
         }
 
-        component = DaggerApplicationComponent.builder()
+        mComponent = DaggerApplicationComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .build();
+
+        mComponent.inject(this);
+
+        mParseManager.init();
     }
 
     public ApplicationComponent getObjectGraph() {
-        return component;
+        return mComponent;
     }
 }

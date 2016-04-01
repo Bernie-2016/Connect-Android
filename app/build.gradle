@@ -13,7 +13,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.berniesanders.connect"
+        applicationId 'com.berniesanders.connect'
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
@@ -57,4 +57,6 @@ dependencies {
     compile 'com.jakewharton.timber:timber:3.0.2'
     compile 'com.commonsware.cwac:anddown:0.2.4'
     compile 'org.nanohttpd:nanohttpd:2.3.0'
+    compile 'com.parse.bolts:bolts-android:1.4.0'
+    compile 'com.parse:parse-android:1.13.0'
 }
