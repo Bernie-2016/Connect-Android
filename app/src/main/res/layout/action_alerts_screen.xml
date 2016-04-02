@@ -21,11 +21,22 @@
         android:visibility="gone"
         >
 
+        <com.berniesanders.connect.view.ViewPageIndicator
+            android:id="@+id/page_indicator"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/indicator_item_size"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            />
+
         <TextView
             android:id="@+id/title"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
             android:lines="@integer/action_alert_title_lines"
             android:textSize="28sp"
             android:textColor="@android:color/white"

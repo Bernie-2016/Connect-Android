@@ -57,12 +57,8 @@ public class ActionAlertAdapter extends PagerAdapter {
     public void setActionAlerts(final List<ActionAlert> actionAlerts) {
         if (!mAlerts.equals(actionAlerts)) {
             mAlerts = actionAlerts;
-            invalidateCache();
+            mViewCache.evictAll();
             notifyDataSetChanged();
         }
-    }
-
-    public void invalidateCache() {
-        mViewCache.evictAll();
     }
 }
