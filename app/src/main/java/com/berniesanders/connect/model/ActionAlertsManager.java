@@ -52,30 +52,34 @@ public class ActionAlertsManager {
     }
 
     private Observable<List<ActionAlert>> requestActionAlerts() {
-        return getDbActionAlerts().flatMap(optionalAlerts -> optionalAlerts
-                .map(dbAlerts -> {
-                    setActionAlerts(dbAlerts);
-                    return Observable.just(dbAlerts);
+        return mConnectApi.getActionAlerts()
+                .map(JsonApiResponse::getActionAlerts)
+                .subscribeOn(Schedulers.io())
+                .zipWith(getDbActionAlerts(), (serverAlerts, dbAlerts) -> {
+                    return concatAlerts(serverAlerts, dbAlerts.orElse(mActionAlerts));
                 })
-                .orElse(mConnectApi.getActionAlerts()
-                        .map(JsonApiResponse::getActionAlerts)
-                        .subscribeOn(Schedulers.io())
-                        .observeOn(AndroidSchedulers.mainThread())
-                        .cache()
-                        .doOnNext(serverAlerts -> {
-                            final Set<String> serverIds = Stream.of(serverAlerts)
-                                    .map(ActionAlert::id)
-                                    .collect(Collectors.toSet());
+                .observeOn(AndroidSchedulers.mainThread())
+                .doOnNext(resultAlerts -> {
+                    if (!mActionAlerts.equals(resultAlerts)) {
+                        setActionAlerts(resultAlerts);
 
-                            setActionAlerts(Stream.concat(
-                                    Stream.of(serverAlerts),
-                                    Stream.of(mActionAlerts).filter(value -> !serverIds.contains(value.id())))
-                                    .collect(Collectors.toList()));
+                        mGsonDb.write(GsonDb.ACTION_ALERTS, Stream.of(resultAlerts)
+                                .map(ActionAlertGson::fromValue)
+                                .collect(Collectors.toList()));
+                    }
+                })
+                .cache();
+    }
 
-                            mGsonDb.write(GsonDb.ACTION_ALERTS, Stream.of(mActionAlerts)
-                                    .map(ActionAlertGson::fromValue)
-                                    .collect(Collectors.toList()));
-                        })));
+    private List<ActionAlert> concatAlerts(final List<ActionAlert> newAlerts, final List<ActionAlert> oldAlerts) {
+        final Set<String> newIds = Stream.of(newAlerts)
+                .map(ActionAlert::id)
+                .collect(Collectors.toSet());
+
+        return Stream.concat(
+                Stream.of(newAlerts),
+                Stream.of(oldAlerts).filter(value -> !newIds.contains(value.id())))
+                .collect(Collectors.toList());
     }
 
     private Observable<Optional<List<ActionAlert>>> getDbActionAlerts() {
