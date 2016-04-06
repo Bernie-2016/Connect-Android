@@ -10,11 +10,15 @@
     <string name="news">News (coming soon)</string>
     <string name="nearby">Nearby (coming soon)</string>
     <string name="privacy_policy">Privacy Policy</string>
-    <string name="settings">Settings (coming soon)</string>
+    <string name="settings">Settings</string>
 
     <!-- dialog -->
     <string name="i_agree">I agree</string>
     <string name="close_app">close app</string>
     <string name="close">close</string>
+
+    <!-- settings -->
+    <string name="settings_title">Settings</string>
+    <string name="push_master_title">Push Notifications</string>
 
 </resources>

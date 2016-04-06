@@ -9,6 +9,10 @@ import com.annimon.stream.Optional;
 import com.commonsware.cwac.anddown.AndDown;
 
 public class StringUtil {
+    public static boolean isEmpty(final String string) {
+        return string == null || string.trim().isEmpty();
+    }
+
     public static String nullAsEmpty(final String string) {
         return string == null ? "" : string;
     }

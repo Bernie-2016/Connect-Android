@@ -31,6 +31,7 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".screens.settings.SettingsActivity" />
         <activity android:name=".screens.detail.DetailActivity" />
 
         <service android:name="com.parse.PushService" />
@@ -47,7 +48,7 @@
         </receiver>
 
         <receiver
-            android:name="com.parse.ParsePushBroadcastReceiver"
+            android:name=".parse.ConnectPushReceiver"
             android:exported="false"
             >
             <intent-filter>

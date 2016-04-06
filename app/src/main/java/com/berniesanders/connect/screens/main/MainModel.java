@@ -44,14 +44,6 @@ public class MainModel {
         mAlertServer.stop();
     }
 
-    public boolean hasNotAgreedToTerms() {
-        return !mApplicationPreferences.hasAgreedToTerms();
-    }
-
-    public void agreeToTerms() {
-        mApplicationPreferences.agreeToTerms();
-    }
-
     public boolean hasNotAgreedToPrivacy() {
         return !mApplicationPreferences.hasAgreedToPrivacy();
     }

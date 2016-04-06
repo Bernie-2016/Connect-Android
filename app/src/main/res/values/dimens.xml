@@ -6,4 +6,9 @@
     <dimen name="indicator_item_size">8dp</dimen>
     <dimen name="indicator_item_margin">2dp</dimen>
     <dimen name="indicator_item_radius">4dp</dimen>
+
+    <dimen name="default_padding">16dp</dimen>
+    <dimen name="default_padding_small">8dp</dimen>
+
+    <dimen name="setting_height">64dp</dimen>
 </resources>

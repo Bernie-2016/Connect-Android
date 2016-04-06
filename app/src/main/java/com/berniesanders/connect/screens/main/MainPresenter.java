@@ -1,5 +1,6 @@
 package com.berniesanders.connect.screens.main;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
@@ -10,6 +11,7 @@ import com.berniesanders.connect.hook.ActivityHookBuilder;
 import com.berniesanders.connect.rx.ActivitySubscriptionManager;
 import com.berniesanders.connect.screen.ViewScreenManager;
 import com.berniesanders.connect.screens.alert.AlertsScreen;
+import com.berniesanders.connect.screens.settings.SettingsActivity;
 
 import java.util.Arrays;
 import java.util.Collection;
@@ -65,6 +67,7 @@ public class MainPresenter {
                     mView.showPrivacy(true);
                     break;
                 case R.id.settings:
+                    activity.startActivity(new Intent(activity, SettingsActivity.class));
                     break;
             }
 
