@@ -23,7 +23,7 @@ import rx.schedulers.Schedulers;
 
 public class ActionAlertsManager {
     private final ConnectApi mConnectApi;
-    private final TimeToLive mTimeToLive = new TimeToLive(TimeUnit.MINUTES, 2);
+    private final TimeToLive mTimeToLive = new TimeToLive(TimeUnit.MINUTES, 10);
     private final GsonDb mGsonDb;
 
     private List<ActionAlert> mActionAlerts = Collections.emptyList();
@@ -38,7 +38,6 @@ public class ActionAlertsManager {
     private void setActionAlerts(final List<ActionAlert> actionAlerts) {
         mActionAlerts = Collections.unmodifiableList(actionAlerts);
         mActionAlertsById = Stream.of(mActionAlerts).collect(Collectors.toMap(ActionAlert::id, alert -> alert));
-        mTimeToLive.reset();
     }
 
     public Optional<ActionAlert> getActionAlertById(final String id) {
@@ -51,7 +50,7 @@ public class ActionAlertsManager {
                 .orElseGet(this::requestActionAlerts);
     }
 
-    private Observable<List<ActionAlert>> requestActionAlerts() {
+    public Observable<List<ActionAlert>> requestActionAlerts() {
         return mConnectApi.getActionAlerts()
                 .map(JsonApiResponse::getActionAlerts)
                 .subscribeOn(Schedulers.io())
@@ -67,6 +66,8 @@ public class ActionAlertsManager {
                                 .map(ActionAlertGson::fromValue)
                                 .collect(Collectors.toList()));
                     }
+
+                    mTimeToLive.reset();
                 })
                 .cache();
     }

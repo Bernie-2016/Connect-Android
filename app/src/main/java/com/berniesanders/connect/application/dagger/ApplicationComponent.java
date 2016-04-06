@@ -17,7 +17,7 @@ public interface ApplicationComponent {
     void inject(ConnectApplication connectApplication);
 
     ApplicationPreferences getApplicationPreferences();
-    ActionAlertsManager getActionAlertsModel();
+    ActionAlertsManager getActionAlertsManager();
     Resources getResources();
     DimensionUtil getDimensionUtil();
 }
