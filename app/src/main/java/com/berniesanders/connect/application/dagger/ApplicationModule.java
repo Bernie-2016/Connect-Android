@@ -1,5 +1,6 @@
 package com.berniesanders.connect.application.dagger;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
@@ -32,6 +33,11 @@ public class ApplicationModule {
     @Provides
     public Context provideContext() {
         return mApplication;
+    }
+
+    @Provides
+    public NotificationManager provideNotificationManager(final Context context) {
+        return (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
     }
 
     @Provides

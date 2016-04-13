@@ -5,6 +5,7 @@ import android.content.res.Resources;
 import com.berniesanders.connect.application.ApplicationPreferences;
 import com.berniesanders.connect.application.ConnectApplication;
 import com.berniesanders.connect.model.ActionAlertsManager;
+import com.berniesanders.connect.notification.NotificationController;
 import com.berniesanders.connect.util.DimensionUtil;
 
 import javax.inject.Singleton;
@@ -18,6 +19,7 @@ public interface ApplicationComponent {
 
     ApplicationPreferences getApplicationPreferences();
     ActionAlertsManager getActionAlertsManager();
+    NotificationController getNotificationController();
     Resources getResources();
     DimensionUtil getDimensionUtil();
 }
