@@ -70,7 +70,7 @@
 
         <meta-data
             android:name="com.parse.push.notification_icon"
-            android:resource="@drawable/push_icon"
+            android:resource="@drawable/ic_notification"
             />
 
         <meta-data
