@@ -3,11 +3,11 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'io.fabric'
 apply plugin: 'me.tatarka.retrolambda'
 
-if (!project.hasProperty("parseAppId")) {
+if (!project.hasProperty('parseAppId')) {
     ext.parseAppId = ""
 }
 
-if (!project.hasProperty("parseClientKey")) {
+if (!project.hasProperty('parseClientKey')) {
     ext.parseClientKey = ""
 }
 
@@ -26,21 +26,32 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    }
+
+    signingConfigs {
+        release {
+            if (project.hasProperty('connectKeyStore')) {
+                setStoreFile(file(connectKeyStore))
+                setStorePassword(connectStorePassword)
+                setKeyAlias('connect-android')
+                setKeyPassword(connectAliasPassword)
+            }
+        }
     }
 
     buildTypes {
         debug {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', 'PARSE_APP_ID', '"eY26VlkvucbKI5Pv4t2wsii521GSWM8Va4kGUYE2"'
             buildConfigField 'String', 'PARSE_CLIENT_KEY', '"wPakXdZlaR7nNuY0Rb3fHIUz3CqSQPmIgpGXdUFA"'
         }
 
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             buildConfigField 'String', 'PARSE_APP_ID', "\"${parseAppId}\""
             buildConfigField 'String', 'PARSE_CLIENT_KEY', "\"${parseClientKey}\""
+            signingConfig signingConfigs.release
         }
     }
 }
