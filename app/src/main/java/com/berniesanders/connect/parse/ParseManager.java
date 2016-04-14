@@ -23,7 +23,7 @@ public class ParseManager {
             Parse.setLogLevel(Parse.LOG_LEVEL_VERBOSE);
         }
 
-        Parse.initialize(mContext);
+        Parse.initialize(mContext, BuildConfig.PARSE_APP_ID, BuildConfig.PARSE_CLIENT_KEY);
 
         ParseInstallation.getCurrentInstallation().saveInBackground();
     }

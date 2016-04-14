@@ -3,6 +3,14 @@ apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'io.fabric'
 apply plugin: 'me.tatarka.retrolambda'
 
+if (!project.hasProperty("parseAppId")) {
+    ext.parseAppId = ""
+}
+
+if (!project.hasProperty("parseClientKey")) {
+    ext.parseClientKey = ""
+}
+
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.2"
@@ -21,9 +29,18 @@ android {
     }
 
     buildTypes {
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'PARSE_APP_ID', '"eY26VlkvucbKI5Pv4t2wsii521GSWM8Va4kGUYE2"'
+            buildConfigField 'String', 'PARSE_CLIENT_KEY', '"wPakXdZlaR7nNuY0Rb3fHIUz3CqSQPmIgpGXdUFA"'
+        }
+
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField 'String', 'PARSE_APP_ID', "\"${parseAppId}\""
+            buildConfigField 'String', 'PARSE_CLIENT_KEY', "\"${parseClientKey}\""
         }
     }
 }

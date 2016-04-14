@@ -62,16 +62,6 @@
         </receiver>
 
         <meta-data
-            android:name="com.parse.APPLICATION_ID"
-            android:value="@string/parse_app_id"
-            />
-
-        <meta-data
-            android:name="com.parse.CLIENT_KEY"
-            android:value="@string/parse_client_key"
-            />
-
-        <meta-data
             android:name="com.parse.push.notification_icon"
             android:resource="@drawable/ic_notification"
             />
