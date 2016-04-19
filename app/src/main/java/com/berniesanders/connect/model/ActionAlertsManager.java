@@ -22,6 +22,8 @@ import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
 public class ActionAlertsManager {
+    private static final int SOFT_MAX_ALERTS = 12;
+
     private final ConnectApi mConnectApi;
     private final TimeToLive mTimeToLive = new TimeToLive(TimeUnit.MINUTES, 10);
     private final GsonDb mGsonDb;
@@ -80,6 +82,7 @@ public class ActionAlertsManager {
         return Stream.concat(
                 Stream.of(newAlerts),
                 Stream.of(oldAlerts).filter(value -> !newIds.contains(value.id())))
+                .limit(Math.max(SOFT_MAX_ALERTS, newAlerts.size()))
                 .collect(Collectors.toList());
     }
 
