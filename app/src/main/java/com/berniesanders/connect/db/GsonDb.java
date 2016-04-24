@@ -1,4 +1,4 @@
-package com.berniesanders.connect.util;
+package com.berniesanders.connect.db;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -21,6 +21,7 @@ import rx.schedulers.Schedulers;
 @Singleton
 public class GsonDb {
     public static final String ACTION_ALERTS = "ACTION_ALERTS";
+    public static final String NEWS_ARTICLES = "NEWS_ARTICLES";
 
     private final SharedPreferences mPreferences;
     private final Gson mGson;

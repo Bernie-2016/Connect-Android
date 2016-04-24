@@ -24,7 +24,11 @@ public class GsonFactory {
         TYPE_MAP.put(ActionAlertAttributes.TYPE, new TypeToken<ActionAlertAttributes>() {}.getType());
     }
 
-    public static Gson create() {
+    public static Gson createDefault() {
+        return new Gson();
+    }
+
+    public static Gson createJsonApi() {
         return new GsonBuilder()
                 .registerTypeAdapter(new TypeToken<JsonApiDataItem>() {}.getType(), (JsonDeserializer<JsonApiDataItem>) (json, typeOfT, context) -> {
                     try {

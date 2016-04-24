@@ -5,15 +5,19 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 
+import com.berniesanders.connect.api.BaseUrls;
+import com.berniesanders.connect.api.NewsFeedApi;
 import com.berniesanders.connect.application.ApplicationPreferences;
 import com.berniesanders.connect.application.ConnectApplication;
 import com.berniesanders.connect.api.ConnectApi;
 import com.berniesanders.connect.application.PrefName;
+import com.berniesanders.connect.dagger.Name;
 import com.berniesanders.connect.gson.GsonFactory;
 import com.berniesanders.connect.model.ActionAlertsManager;
-import com.berniesanders.connect.util.GsonDb;
+import com.berniesanders.connect.db.GsonDb;
 import com.google.gson.Gson;
 
+import javax.inject.Named;
 import javax.inject.Singleton;
 
 import dagger.Module;
@@ -58,15 +62,24 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public Gson provideGson() {
-        return GsonFactory.create();
+    @Named(Name.DEFAULT)
+    public Gson provideDefaultGson() {
+        return GsonFactory.createDefault();
     }
 
     @Provides
     @Singleton
-    public Retrofit provideRetrofit(final Gson gson) {
+    @Named(Name.JSON_API)
+    public Gson provideJsonApiGson() {
+        return GsonFactory.createJsonApi();
+    }
+
+    @Provides
+    @Singleton
+    @Named(Name.CONNECT)
+    public Retrofit provideConnectRetrofit(@Named(Name.JSON_API) final Gson gson) {
         return new Retrofit.Builder()
-                .baseUrl(ConnectApi.BASE_URL)
+                .baseUrl(BaseUrls.CONNECT_API)
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
@@ -74,8 +87,25 @@ public class ApplicationModule {
 
     @Provides
     @Singleton
-    public ConnectApi provideConnectApi(final Retrofit retrofit) {
+    @Named(Name.SHARKNADO)
+    public Retrofit provideSharknadoRetrofit(@Named(Name.DEFAULT) final Gson gson) {
+        return new Retrofit.Builder()
+                .baseUrl(BaseUrls.SHARKNADO)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .build();
+    }
+
+    @Provides
+    @Singleton
+    public ConnectApi provideConnectApi(@Named(Name.CONNECT) final Retrofit retrofit) {
         return retrofit.create(ConnectApi.class);
+    }
+
+    @Provides
+    @Singleton
+    public NewsFeedApi provideNewsFeedApi(@Named(Name.SHARKNADO) final Retrofit retrofit) {
+        return retrofit.create(NewsFeedApi.class);
     }
 
     @Provides

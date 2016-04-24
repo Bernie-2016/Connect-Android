@@ -40,7 +40,7 @@ public class GsonFactoryTest extends TestCase {
             "}";
 
     public void testActionAlertDeserialization() {
-        final List<ActionAlert> alerts = GsonFactory.create().fromJson(ACTION_ALERT_JSON, JsonApiResponse.class).getActionAlerts();
+        final List<ActionAlert> alerts = GsonFactory.createJsonApi().fromJson(ACTION_ALERT_JSON, JsonApiResponse.class).getActionAlerts();
 
         Assert.assertEquals(2, alerts.size());
 
