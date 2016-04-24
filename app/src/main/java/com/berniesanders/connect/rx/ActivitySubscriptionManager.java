@@ -10,6 +10,7 @@ import javax.inject.Inject;
 
 import rx.Observable;
 import rx.Observer;
+import rx.exceptions.OnErrorNotImplementedException;
 import rx.functions.Action0;
 import rx.functions.Action1;
 import timber.log.Timber;
@@ -54,7 +55,9 @@ public class ActivitySubscriptionManager extends SubscriptionManager<Activity> {
 
             @Override
             public void onError(Throwable e) {
-                if (onError != null) {
+                if (onError == null) {
+                    throw new OnErrorNotImplementedException(e);
+                } else {
                     onError.call(e);
                 }
             }
