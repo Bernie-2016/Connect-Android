@@ -1,16 +1,18 @@
 package com.berniesanders.connect.screens.news;
 
+import android.content.res.Resources;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ProgressBar;
 
 import com.berniesanders.connect.R;
+import com.berniesanders.connect.adapter.NewsArticleAdapter;
 import com.berniesanders.connect.dagger.NewsScope;
 import com.berniesanders.connect.data.NewsArticle;
 import com.berniesanders.connect.screen.ScreenView;
 import com.berniesanders.connect.screen.ViewScreenFactory;
 
-import java.util.Collections;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -21,10 +23,10 @@ import butterknife.ButterKnife;
 @NewsScope
 public class NewsView implements ScreenView<View>, INewsView {
     private final ViewScreenFactory mViewFactory;
+    private final Resources mResources;
 
     private View mView;
-//    private NewsArticleAdapter mAdapter;
-    private List<NewsArticle> mNewsArticles = Collections.emptyList();
+    private NewsArticleAdapter mAdapter;
 
     @Bind(R.id.progress)
     ProgressBar mProgressBar;
@@ -33,8 +35,9 @@ public class NewsView implements ScreenView<View>, INewsView {
     RecyclerView mRecyclerView;
 
     @Inject
-    public NewsView(final ViewScreenFactory viewFactory) {
+    public NewsView(final ViewScreenFactory viewFactory, final Resources resources) {
         mViewFactory = viewFactory;
+        mResources = resources;
     }
 
     @Override
@@ -43,8 +46,9 @@ public class NewsView implements ScreenView<View>, INewsView {
 
         ButterKnife.bind(this, mView);
 
-//        mAdapter = new NewsArticleAdapter();
-//        mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setLayoutManager(new GridLayoutManager(mView.getContext(), mResources.getInteger(R.integer.grid_span)));
+        mAdapter = new NewsArticleAdapter();
+        mRecyclerView.setAdapter(mAdapter);
 
         return mView;
     }
@@ -61,6 +65,6 @@ public class NewsView implements ScreenView<View>, INewsView {
     public void setNewsArticles(final List<NewsArticle> newsArticles) {
         mProgressBar.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
-//        mAdapter.setNewsArticles(newsArticles);
+        mAdapter.setNewsArticles(newsArticles);
     }
 }

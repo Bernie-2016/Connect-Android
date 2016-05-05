@@ -1,4 +1,4 @@
-package com.berniesanders.connect.adapter.actionalert;
+package com.berniesanders.connect.adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.util.LruCache;
@@ -14,9 +14,6 @@ import java.util.List;
 public class ActionAlertAdapter extends PagerAdapter {
     private LruCache<ActionAlert, ActionAlertView> mViewCache = new LruCache<>(30);
     private List<ActionAlert> mAlerts = Collections.emptyList();
-
-    public ActionAlertAdapter() {
-    }
 
     @Override
     public Object instantiateItem(final ViewGroup container, final int position) {

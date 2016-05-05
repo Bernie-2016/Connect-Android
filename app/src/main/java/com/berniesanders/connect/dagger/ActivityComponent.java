@@ -1,6 +1,7 @@
 package com.berniesanders.connect.dagger;
 
 import android.app.Activity;
+import android.content.res.Resources;
 import android.support.v7.app.AppCompatActivity;
 
 import com.berniesanders.connect.model.ActionAlertsManager;
@@ -27,6 +28,7 @@ public interface ActivityComponent {
     // application
     ActionAlertsManager getActionAlertsManager();
     NewsFeedManager getNewsFeedManager();
+    Resources getResources();
     DimensionUtil getDimensionUtil();
 
     // activity

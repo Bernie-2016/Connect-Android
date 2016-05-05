@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import com.annimon.stream.Optional;
 import com.berniesanders.connect.R;
-import com.berniesanders.connect.adapter.actionalert.ActionAlertAdapter;
+import com.berniesanders.connect.adapter.ActionAlertAdapter;
 import com.berniesanders.connect.dagger.AlertsScope;
 import com.berniesanders.connect.data.ActionAlert;
 import com.berniesanders.connect.screen.ScreenView;

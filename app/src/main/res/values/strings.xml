@@ -1,10 +1,6 @@
 <resources>
     <string name="app_name">Connect</string>
 
-    <!-- action alerts -->
-    <string name="live_action_alert">1 live action alerts</string>
-    <string name="live_action_alerts">%d live action alerts</string>
-
     <!-- menu -->
     <string name="act_now">Act Now</string>
     <string name="news">News (coming soon)</string>

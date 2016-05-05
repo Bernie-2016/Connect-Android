@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <integer name="action_alert_title_lines">3</integer>
+    <integer name="grid_span">2</integer>
 </resources>
