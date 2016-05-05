@@ -13,13 +13,18 @@ import com.google.gson.reflect.TypeToken;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import rx.Observable;
 
+@Singleton
 public class ActionAlertsManager {
     private static final int SOFT_MAX_ALERTS = 12;
 
     private final MergingModelManager<JsonApiResponse, ActionAlertGson, ActionAlert, String> mDelegate;
 
+    @Inject
     public ActionAlertsManager(final ConnectApi connectApi, final GsonDb gsonDb) {
         mDelegate = new MergingModelManager<>(
                 SOFT_MAX_ALERTS,

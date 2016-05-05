@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 
 import com.berniesanders.connect.model.ActionAlertsManager;
+import com.berniesanders.connect.model.NewsFeedManager;
 import com.berniesanders.connect.rx.ActivitySubscriptionManager;
 import com.berniesanders.connect.screen.ViewScreenFactory;
 import com.berniesanders.connect.screens.main.MainActivity;
@@ -25,6 +26,7 @@ public interface ActivityComponent {
 
     // application
     ActionAlertsManager getActionAlertsManager();
+    NewsFeedManager getNewsFeedManager();
     DimensionUtil getDimensionUtil();
 
     // activity

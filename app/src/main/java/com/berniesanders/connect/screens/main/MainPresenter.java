@@ -11,6 +11,7 @@ import com.berniesanders.connect.hook.ActivityHookBuilder;
 import com.berniesanders.connect.rx.ActivitySubscriptionManager;
 import com.berniesanders.connect.screen.ViewScreenManager;
 import com.berniesanders.connect.screens.alert.AlertsScreen;
+import com.berniesanders.connect.screens.news.NewsScreen;
 import com.berniesanders.connect.screens.settings.SettingsActivity;
 
 import java.util.Arrays;
@@ -27,14 +28,16 @@ public class MainPresenter {
     private final MainView mView;
     private final ViewScreenManager mViewScreenManager;
     private final AlertsScreen mAlertsScreen;
+    private final NewsScreen mNewsScreen;
     private final ActivitySubscriptionManager mSubscriptionManager;
 
     @Inject
-    public MainPresenter(final MainModel model, final MainView view, final ViewScreenManager viewScreenManager, final AlertsScreen alertsScreen, final ActivitySubscriptionManager subscriptionManager) {
+    public MainPresenter(final MainModel model, final MainView view, final ViewScreenManager viewScreenManager, final AlertsScreen alertsScreen, final NewsScreen newsScreen, final ActivitySubscriptionManager subscriptionManager) {
         mModel = model;
         mView = view;
         mViewScreenManager = viewScreenManager;
         mAlertsScreen = alertsScreen;
+        mNewsScreen = newsScreen;
         mSubscriptionManager = subscriptionManager;
     }
 
@@ -58,8 +61,11 @@ public class MainPresenter {
             switch (itemId) {
                 case R.id.act_now:
                     mViewScreenManager.switchTo(mAlertsScreen);
+                    mView.selectScreen(0);
                     break;
                 case R.id.news:
+                    mViewScreenManager.switchTo(mNewsScreen);
+                    mView.selectScreen(1);
                     break;
                 case R.id.nearby:
                     break;

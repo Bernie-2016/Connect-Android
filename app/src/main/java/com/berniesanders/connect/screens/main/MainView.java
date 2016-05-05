@@ -60,8 +60,8 @@ public class MainView {
         mToolbar.setNavigationOnClickListener(view -> mDrawerView.toggle());
         mNavigationView.inflateHeaderView(R.layout.drawer_header);
         mNavigationView.inflateMenu(R.menu.menu_main);
-        mNavigationView.getMenu().getItem(0).setChecked(true);
         mDrawerView = new DrawerView(mDrawerLayout, mNavigationView);
+        selectScreen(0);
     }
 
     public DrawerView getDrawerView() {
@@ -70,6 +70,10 @@ public class MainView {
 
     public void showPrivacy(final boolean agreed) {
         mPrivacyPolicyDialog.show(agreed);
+    }
+
+    public void selectScreen(final int position) {
+        mNavigationView.getMenu().getItem(position).setChecked(true);
     }
 
     public Observable<Boolean> onAgreeToPrivacy() {

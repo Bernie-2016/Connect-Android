@@ -13,13 +13,18 @@ import com.google.gson.reflect.TypeToken;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import rx.Observable;
 
+@Singleton
 public class NewsFeedManager {
     private static final int SOFT_MAX_ARTICLES = 100;
 
     private final MergingModelManager<HitsResponse<NewsArticleGson>, NewsArticleGson, NewsArticle, String> mDelegate;
 
+    @Inject
     public NewsFeedManager(final NewsFeedApi newsFeedApi, final GsonDb gsonDb) {
         mDelegate = new MergingModelManager<>(
                 SOFT_MAX_ARTICLES,

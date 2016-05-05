@@ -1,5 +1,8 @@
 package com.berniesanders.connect.gson;
 
+import com.annimon.stream.Collectors;
+import com.annimon.stream.Stream;
+
 import java.util.List;
 
 public class HitsResponse<T> {
@@ -17,10 +20,20 @@ public class HitsResponse<T> {
     public static class HitsData<T> {
         private float max_score;
         private int total;
-        private List<T> hits;
+        private List<Hit<T>> hits;
+    }
+
+    public static class Hit<T> {
+        private String _id;
+        private String _type;
+        private String _index;
+        private double _score;
+        private T _source;
     }
 
     public List<T> getHits() {
-        return hits.hits;
+        return Stream.of(hits.hits)
+                .map(hit -> hit._source)
+                .collect(Collectors.toList());
     }
 }
