@@ -4,6 +4,8 @@ import com.berniesanders.connect.dagger.NewsScope;
 import com.berniesanders.connect.data.NewsArticle;
 import com.berniesanders.connect.model.NewsFeedManager;
 
+import org.joda.time.DateTime;
+
 import java.util.List;
 
 import javax.inject.Inject;
@@ -20,6 +22,9 @@ public class NewsModel {
     }
 
     public Observable<List<NewsArticle>> getNewsArticles() {
-        return mNewsFeedManager.getNewsArticles();
+        return mNewsFeedManager
+                .getNewsArticles()
+                .flatMap(Observable::from)
+                .toSortedList((lhs, rhs) -> DateTime.parse(rhs.timestampPublish()).compareTo(DateTime.parse(lhs.timestampPublish())));
     }
 }

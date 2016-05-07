@@ -10,12 +10,20 @@ import com.berniesanders.connect.view.NewsArticleView;
 import java.util.Collections;
 import java.util.List;
 
+import rx.Observable;
+import rx.subjects.PublishSubject;
+
 public class NewsArticleAdapter extends DecorableAdapter {
+    private final PublishSubject<NewsArticle> mOnSelected = PublishSubject.create();
+
     private List<NewsArticle> mArticles = Collections.emptyList();
 
     @Override
     public ViewHolder onCreateViewHolder(final ViewGroup parent, final int viewType) {
-        return new ViewHolder(new NewsArticleView(parent.getContext())) {};
+        final NewsArticleView view = new NewsArticleView(parent.getContext());
+
+        view.setOnSelected(mOnSelected::onNext);
+        return new ViewHolder(view) {};
     }
 
     @Override
@@ -38,5 +46,9 @@ public class NewsArticleAdapter extends DecorableAdapter {
             mArticles = newsArticles;
             notifyDataSetChanged();
         }
+    }
+
+    public Observable<NewsArticle> onSelected() {
+        return mOnSelected;
     }
 }

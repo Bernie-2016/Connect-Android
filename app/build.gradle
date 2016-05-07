@@ -84,6 +84,7 @@ dependencies {
 //    compile 'com.facebook.android:facebook-android-sdk:4.6.0'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.jakewharton.timber:timber:3.0.2'
+    compile 'joda-time:joda-time:2.9.3'
     compile 'com.commonsware.cwac:anddown:0.2.4'
     compile 'org.nanohttpd:nanohttpd:2.3.0'
     compile 'com.parse.bolts:bolts-android:1.4.0'

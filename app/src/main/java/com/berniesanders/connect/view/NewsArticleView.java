@@ -1,6 +1,7 @@
 package com.berniesanders.connect.view;
 
 import android.content.Context;
+import android.os.Handler;
 import android.support.v7.widget.CardView;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
@@ -8,12 +9,17 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.annimon.stream.function.Consumer;
 import com.berniesanders.connect.R;
 import com.berniesanders.connect.application.ConnectApplication;
 import com.berniesanders.connect.data.NewsArticle;
 import com.berniesanders.connect.util.DimensionUtil;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import org.joda.time.DateTime;
+
+import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -21,14 +27,21 @@ import butterknife.ButterKnife;
 public class NewsArticleView extends CardView {
     private static final int IMAGE_HEIGHT_DP = 100;
 
+    private Consumer<NewsArticle> mOnSelected = newsArticle -> {};
     private NewsArticle mNewsArticle;
     private int mImageHeight;
+
+    @Bind(R.id.layout)
+    View mLayout;
 
     @Bind(R.id.image)
     ImageView mImage;
 
     @Bind(R.id.title)
     TextView mTitle;
+
+    @Bind(R.id.body)
+    TextView mBody;
 
     @Bind(R.id.date)
     TextView mDate;
@@ -62,34 +75,56 @@ public class NewsArticleView extends CardView {
                 .getObjectGraph()
                 .getDimensionUtil()
                 .dpToPx(IMAGE_HEIGHT_DP);
+
+        mLayout.setOnClickListener(view -> mOnSelected.accept(mNewsArticle));
     }
 
     public void setNewsArticle(final NewsArticle newsArticle) {
         if (!newsArticle.equals(mNewsArticle)) {
+            final DateTime time = DateTime.parse(newsArticle.timestampPublish());
+
             mNewsArticle = newsArticle;
-            mTitle.setText(mNewsArticle.title());
-            mDate.setText(mNewsArticle.timestampPublish());
+            mTitle.setText(newsArticle.title().trim());
+            mBody.setText(newsArticle.body().trim());
+            mDate.setText(formatTime(time));
 
             if (newsArticle.getImageUrl().isPresent()) {
                 mImage.setVisibility(View.VISIBLE);
 
-                post(() -> Picasso.with(getContext())
-                        .load(newsArticle.getImageUrl().get())
-                        .resize(mImage.getWidth(), mImageHeight)
-                        .centerCrop()
-                        .into(mImage, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                mImage.invalidate();
-                            }
+                final Runnable fetchImage = () ->
+                        Picasso.with(getContext())
+                                .load(newsArticle.getImageUrl().get())
+                                .resize(mImage.getWidth(), mImageHeight)
+                                .centerCrop()
+                                .into(mImage);
 
-                            @Override
-                            public void onError() {
-                            }
-                        }));
+                // complete hack to check if the view is "ready"
+                if (mImage.getWidth() == 0) {
+                    new Handler().post(fetchImage);
+                } else {
+                    fetchImage.run();
+                }
             } else {
                 mImage.setVisibility(View.GONE);
             }
+        }
+    }
+
+    public void setOnSelected(final Consumer<NewsArticle> onSelected) {
+        mOnSelected = onSelected;
+    }
+
+    private String formatTime(final DateTime time) {
+        final DateTime now = DateTime.now();
+
+        if (now.isAfter(time) && now.minusHours(1).isBefore(time)) {
+            return (now.getMillis() - time.getMillis()) / TimeUnit.MINUTES.toMillis(1) + " minutes ago";
+        } else if (now.isAfter(time) && now.minusDays(1).isBefore(time)) {
+            return (now.getMillis() - time.getMillis()) / TimeUnit.HOURS.toMillis(1) + " hours ago";
+        } else if (now.isAfter(time) && now.minusYears(1).isBefore(time)) {
+            return time.toString("MMMM dd", Locale.US);
+        } else {
+            return time.toString("MMMM dd yyyy", Locale.US);
         }
     }
 }
