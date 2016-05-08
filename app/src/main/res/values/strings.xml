@@ -3,7 +3,7 @@
 
     <!-- menu -->
     <string name="act_now">Act Now</string>
-    <string name="news">News (coming soon)</string>
+    <string name="news">News</string>
     <string name="nearby">Nearby (coming soon)</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="settings">Settings</string>
@@ -16,5 +16,8 @@
     <!-- settings -->
     <string name="settings_title">Settings</string>
     <string name="push_master_title">Push Notifications</string>
+
+    <!-- acrticle -->
+    <string name="article_title">News Article</string>
 
 </resources>

@@ -19,11 +19,14 @@ import javax.inject.Inject;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import rx.Observable;
+import rx.subjects.PublishSubject;
 
 @NewsScope
 public class NewsView implements ScreenView<View>, INewsView {
     private final ViewScreenFactory mViewFactory;
     private final Resources mResources;
+    private final PublishSubject<NewsArticle> mOnSelected = PublishSubject.create();
 
     private View mView;
     private NewsArticleAdapter mAdapter;
@@ -49,6 +52,7 @@ public class NewsView implements ScreenView<View>, INewsView {
         mRecyclerView.setLayoutManager(new GridLayoutManager(mView.getContext(), mResources.getInteger(R.integer.grid_span)));
         mAdapter = new NewsArticleAdapter();
         mRecyclerView.setAdapter(mAdapter);
+        mAdapter.onSelected().subscribe(mOnSelected);
 
         return mView;
     }
@@ -66,5 +70,10 @@ public class NewsView implements ScreenView<View>, INewsView {
         mProgressBar.setVisibility(View.GONE);
         mRecyclerView.setVisibility(View.VISIBLE);
         mAdapter.setNewsArticles(newsArticles);
+    }
+
+    @Override
+    public Observable<NewsArticle> onSelected() {
+        return mOnSelected;
     }
 }

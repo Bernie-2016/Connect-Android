@@ -8,6 +8,7 @@ import com.berniesanders.connect.model.ActionAlertsManager;
 import com.berniesanders.connect.model.NewsFeedManager;
 import com.berniesanders.connect.rx.ActivitySubscriptionManager;
 import com.berniesanders.connect.screen.ViewScreenFactory;
+import com.berniesanders.connect.screens.article.ArticleActivity;
 import com.berniesanders.connect.screens.main.MainActivity;
 import com.berniesanders.connect.application.dagger.ApplicationComponent;
 import com.berniesanders.connect.screens.detail.DetailActivity;
@@ -24,6 +25,7 @@ public interface ActivityComponent {
     void inject(final MainActivity activity);
     void inject(final SettingsActivity activity);
     void inject(final DetailActivity activity);
+    void inject(final ArticleActivity activity);
 
     // application
     ActionAlertsManager getActionAlertsManager();

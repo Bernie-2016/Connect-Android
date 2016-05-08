@@ -14,12 +14,10 @@ import com.berniesanders.connect.R;
 import com.berniesanders.connect.application.ConnectApplication;
 import com.berniesanders.connect.data.NewsArticle;
 import com.berniesanders.connect.util.DimensionUtil;
+import com.berniesanders.connect.util.TimeUtil;
 import com.squareup.picasso.Picasso;
 
 import org.joda.time.DateTime;
-
-import java.util.Locale;
-import java.util.concurrent.TimeUnit;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -81,21 +79,17 @@ public class NewsArticleView extends CardView {
 
     public void setNewsArticle(final NewsArticle newsArticle) {
         if (!newsArticle.equals(mNewsArticle)) {
-            final DateTime time = DateTime.parse(newsArticle.timestampPublish());
-
             mNewsArticle = newsArticle;
             mTitle.setText(newsArticle.title().trim());
-            mBody.setText(newsArticle.body().trim());
-            mDate.setText(formatTime(time));
+            mDate.setText(TimeUtil.renderTime(DateTime.parse(newsArticle.timestampPublish())));
 
             if (newsArticle.getImageUrl().isPresent()) {
                 mImage.setVisibility(View.VISIBLE);
+                mBody.setVisibility(View.GONE);
 
                 final Runnable fetchImage = () ->
                         Picasso.with(getContext())
                                 .load(newsArticle.getImageUrl().get())
-                                .resize(mImage.getWidth(), mImageHeight)
-                                .centerCrop()
                                 .into(mImage);
 
                 // complete hack to check if the view is "ready"
@@ -106,25 +100,13 @@ public class NewsArticleView extends CardView {
                 }
             } else {
                 mImage.setVisibility(View.GONE);
+                mBody.setVisibility(View.VISIBLE);
+                mBody.setText(newsArticle.body().trim());
             }
         }
     }
 
     public void setOnSelected(final Consumer<NewsArticle> onSelected) {
         mOnSelected = onSelected;
-    }
-
-    private String formatTime(final DateTime time) {
-        final DateTime now = DateTime.now();
-
-        if (now.isAfter(time) && now.minusHours(1).isBefore(time)) {
-            return (now.getMillis() - time.getMillis()) / TimeUnit.MINUTES.toMillis(1) + " minutes ago";
-        } else if (now.isAfter(time) && now.minusDays(1).isBefore(time)) {
-            return (now.getMillis() - time.getMillis()) / TimeUnit.HOURS.toMillis(1) + " hours ago";
-        } else if (now.isAfter(time) && now.minusYears(1).isBefore(time)) {
-            return time.toString("MMMM dd", Locale.US);
-        } else {
-            return time.toString("MMMM dd yyyy", Locale.US);
-        }
     }
 }

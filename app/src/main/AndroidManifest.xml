@@ -36,6 +36,7 @@
 
         <activity android:name=".screens.settings.SettingsActivity" />
         <activity android:name=".screens.detail.DetailActivity" />
+        <activity android:name=".screens.article.ArticleActivity" />
 
         <service android:name="com.parse.PushService" />
 

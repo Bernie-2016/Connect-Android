@@ -5,7 +5,10 @@ import com.berniesanders.connect.data.NewsArticle;
 
 import java.util.List;
 
+import rx.Observable;
+
 @NewsScope
 public interface INewsView {
     void setNewsArticles(List<NewsArticle> newsArticles);
+    Observable<NewsArticle> onSelected();
 }
