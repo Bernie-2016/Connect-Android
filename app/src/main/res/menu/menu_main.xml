@@ -9,16 +9,19 @@
         <item
             android:id="@+id/act_now"
             android:title="@string/act_now"
+            android:icon="@drawable/share_icon"
             />
 
         <item
             android:id="@+id/news"
             android:title="@string/news"
+            android:icon="@drawable/news_icon"
             />
 
         <item
             android:id="@+id/nearby"
             android:title="@string/nearby"
+            android:icon="@drawable/events_icon"
             />
 
     </group>
@@ -31,11 +34,13 @@
         <item
             android:id="@+id/privacy_policy"
             android:title="@string/privacy_policy"
+            android:icon="@drawable/pp_icon"
             />
 
         <item
             android:id="@+id/settings"
             android:title="@string/settings"
+            android:icon="@drawable/settings_icon"
             />
 
     </group>
