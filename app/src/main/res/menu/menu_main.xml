@@ -7,8 +7,8 @@
         >
 
         <item
-            android:id="@+id/act_now"
-            android:title="@string/act_now"
+            android:id="@+id/share_this"
+            android:title="@string/share_this"
             android:icon="@drawable/share_icon"
             />
 
@@ -19,8 +19,8 @@
             />
 
         <item
-            android:id="@+id/nearby"
-            android:title="@string/nearby"
+            android:id="@+id/events"
+            android:title="@string/events"
             android:icon="@drawable/events_icon"
             />
 

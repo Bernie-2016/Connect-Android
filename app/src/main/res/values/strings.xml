@@ -2,9 +2,9 @@
     <string name="app_name">Connect</string>
 
     <!-- menu -->
-    <string name="act_now">Act Now</string>
+    <string name="share_this">Share This</string>
     <string name="news">News</string>
-    <string name="nearby">Nearby (coming soon)</string>
+    <string name="events">Events (coming soon)</string>
     <string name="privacy_policy">Privacy Policy</string>
     <string name="settings">Settings</string>
 

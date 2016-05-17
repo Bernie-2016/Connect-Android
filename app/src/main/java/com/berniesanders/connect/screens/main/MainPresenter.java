@@ -76,13 +76,13 @@ public class MainPresenter {
             mView.getDrawerView().close();
 
             switch (itemId) {
-                case R.id.act_now:
+                case R.id.share_this:
                     switchTo(mAlertsScreen);
                     break;
                 case R.id.news:
                     switchTo(mNewsScreen);
                     break;
-                case R.id.nearby:
+                case R.id.events:
                     break;
                 case R.id.privacy_policy:
                     mView.showPrivacy(true);
